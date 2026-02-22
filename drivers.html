@@ -97,39 +97,112 @@
             border-radius: 10px;
         }
 
-        .status-indicator {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
+        .metrics-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
             margin: 20px 0;
         }
 
-        .status {
-            padding: 12px 25px;
-            border-radius: 50px;
-            font-weight: bold;
-            font-size: 1.2rem;
+        @media (max-width: 768px) {
+            .metrics-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .metric-box {
+            background: rgba(13, 27, 42, 0.7);
+            padding: 15px;
+            border-radius: 8px;
             text-align: center;
+            border: 2px solid #415a77;
+            transition: all 0.3s ease;
+        }
+
+        .metric-box.active {
+            border-color: #4caf50;
+            box-shadow: 0 0 10px rgba(76, 175, 80, 0.3);
+        }
+
+        .metric-box.warning {
+            border-color: #ff9800;
+            box-shadow: 0 0 10px rgba(255, 152, 0, 0.3);
+        }
+
+        .metric-box.alert {
+            border-color: #f44336;
+            box-shadow: 0 0 10px rgba(244, 67, 54, 0.3);
+            animation: pulse 1.5s infinite;
+        }
+
+        .metric-label {
+            font-size: 0.9rem;
+            color: #778da9;
+            margin-bottom: 8px;
+        }
+
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #e0e1dd;
+        }
+
+        .status-container {
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .status-box {
+            padding: 20px;
+            border-radius: 10px;
+            font-weight: bold;
+            font-size: 1.3rem;
+            border: 3px solid transparent;
             transition: all 0.3s ease;
         }
 
         .status-awake {
-            background: rgba(46, 125, 50, 0.3);
+            background: rgba(46, 125, 50, 0.2);
             color: #81c784;
-            border: 2px solid #4caf50;
+            border-color: #4caf50;
         }
 
         .status-drowsy {
-            background: rgba(198, 40, 40, 0.3);
+            background: rgba(255, 152, 0, 0.2);
+            color: #ffb74d;
+            border-color: #ff9800;
+            animation: pulse 2s infinite;
+        }
+
+        .status-asleep {
+            background: rgba(244, 67, 54, 0.2);
             color: #ff8a80;
-            border: 2px solid #f44336;
-            animation: pulse 1.5s infinite;
+            border-color: #f44336;
+            animation: pulse 1s infinite;
+        }
+
+        .response-time-container {
+            margin: 20px 0;
+        }
+
+        .response-time-box {
+            background: rgba(13, 27, 42, 0.7);
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            border: 2px solid #415a77;
+        }
+
+        .response-time-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #e0e1dd;
+            margin: 10px 0;
         }
 
         @keyframes pulse {
             0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
+            50% { transform: scale(1.02); }
             100% { transform: scale(1); }
         }
 
@@ -230,6 +303,11 @@
             border-left: 4px solid #4caf50;
         }
 
+        .log-warning {
+            background: rgba(255, 152, 0, 0.2);
+            border-left: 4px solid #ff9800;
+        }
+
         .log-alert {
             background: rgba(198, 40, 40, 0.2);
             border-left: 4px solid #f44336;
@@ -284,6 +362,25 @@
             height: 100%;
             border-radius: 10px;
         }
+
+        .drowsiness-indicator {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: bold;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 10;
+        }
+
+        .face-overlay {
+            position: absolute;
+            border: 3px solid #4caf50;
+            border-radius: 10px;
+            pointer-events: none;
+            z-index: 5;
+        }
     </style>
 </head>
 <body>
@@ -300,10 +397,41 @@
                 </h2>
                 <div class="video-container">
                     <canvas id="videoCanvas"></canvas>
+                    <div id="drowsinessIndicator" class="drowsiness-indicator" style="display: none;"></div>
+                    <div id="faceOverlay" class="face-overlay" style="display: none;"></div>
                 </div>
                 
-                <div class="status-indicator">
-                    <div id="statusIndicator" class="status status-awake">AWAKE</div>
+                <!-- New Metrics Boxes -->
+                <div class="metrics-container">
+                    <div class="metric-box" id="earBox">
+                        <div class="metric-label">EAR (Eye Aspect Ratio)</div>
+                        <div class="metric-value" id="earValue">0.28</div>
+                    </div>
+                    <div class="metric-box" id="marBox">
+                        <div class="metric-label">MAR (Mouth Aspect Ratio)</div>
+                        <div class="metric-value" id="marValue">0.45</div>
+                    </div>
+                    <div class="metric-box" id="perclosBox">
+                        <div class="metric-label">PERCLOS</div>
+                        <div class="metric-value" id="perclosValue">12%</div>
+                    </div>
+                    <div class="metric-box" id="blinkFreqBox">
+                        <div class="metric-label">Blink Frequency</div>
+                        <div class="metric-value" id="blinkFreqValue">0.3/s</div>
+                    </div>
+                </div>
+
+                <!-- Status Box -->
+                <div class="status-container">
+                    <div id="statusBox" class="status-box status-awake">AWAKE</div>
+                </div>
+
+                <!-- Response Time Box -->
+                <div class="response-time-container">
+                    <div class="response-time-box">
+                        <div class="metric-label">System Response Time</div>
+                        <div class="response-time-value" id="responseTimeValue">45ms</div>
+                    </div>
                 </div>
 
                 <div class="sensor-data">
@@ -363,14 +491,23 @@
         </div>
 
         <footer>
-            <p>Driver Drowsiness Detection System &copy; 2023 | For demonstration purposes only</p>
+            <p>Driver Drowsiness Detection System &copy; 2025 | For demonstration purposes only</p>
         </footer>
     </div>
 
     <script>
         // DOM Elements
         const videoCanvas = document.getElementById('videoCanvas');
-        const statusIndicator = document.getElementById('statusIndicator');
+        const statusBox = document.getElementById('statusBox');
+        const earBox = document.getElementById('earBox');
+        const marBox = document.getElementById('marBox');
+        const perclosBox = document.getElementById('perclosBox');
+        const blinkFreqBox = document.getElementById('blinkFreqBox');
+        const earValue = document.getElementById('earValue');
+        const marValue = document.getElementById('marValue');
+        const perclosValue = document.getElementById('perclosValue');
+        const blinkFreqValue = document.getElementById('blinkFreqValue');
+        const responseTimeValue = document.getElementById('responseTimeValue');
         const eyeValue = document.getElementById('eyeValue');
         const headValue = document.getElementById('headValue');
         const blinkValue = document.getElementById('blinkValue');
@@ -382,6 +519,8 @@
         const drowsyEvents = document.getElementById('drowsyEvents');
         const alertLevel = document.getElementById('alertLevel');
         const logsContainer = document.getElementById('logsContainer');
+        const drowsinessIndicator = document.getElementById('drowsinessIndicator');
+        const faceOverlay = document.getElementById('faceOverlay');
 
         // Application State
         let isDetecting = false;
@@ -391,6 +530,15 @@
         let eventsCount = 0;
         let currentAlertLevel = 1;
         let ctx = videoCanvas.getContext('2d');
+        
+        // Metrics state
+        let currentEAR = 0.28; // Normal range: 0.25-0.35
+        let currentMAR = 0.45; // Normal range: 0.4-0.6
+        let currentPERCLOS = 12; // Percentage of time eyes are closed
+        let currentBlinkFreq = 0.3; // Blinks per second
+        let isDrowsy = false;
+        let isAsleep = false;
+        let faceBox = { x: 0, y: 0, width: 0, height: 0 };
 
         // Initialize canvas
         function initCanvas() {
@@ -399,7 +547,7 @@
             drawVideoFeed();
         }
 
-        // Draw simulated video feed
+        // Draw simulated video feed with face detection overlay
         function drawVideoFeed() {
             if (!isDetecting) return;
             
@@ -411,25 +559,49 @@
             const centerY = videoCanvas.height / 2;
             const faceRadius = Math.min(videoCanvas.width, videoCanvas.height) * 0.3;
             
+            // Update face box for overlay
+            faceBox = {
+                x: centerX - faceRadius - 30,
+                y: centerY - faceRadius - 30,
+                width: faceRadius * 2 + 60,
+                height: faceRadius * 2 + 60
+            };
+            
+            // Show face overlay
+            faceOverlay.style.display = 'block';
+            faceOverlay.style.left = `${faceBox.x}px`;
+            faceOverlay.style.top = `${faceBox.y}px`;
+            faceOverlay.style.width = `${faceBox.width}px`;
+            faceOverlay.style.height = `${faceBox.height}px`;
+            
+            // Set overlay color based on status
+            if (isAsleep) {
+                faceOverlay.style.borderColor = '#f44336';
+            } else if (isDrowsy) {
+                faceOverlay.style.borderColor = '#ff9800';
+            } else {
+                faceOverlay.style.borderColor = '#4caf50';
+            }
+            
             ctx.strokeStyle = '#415a77';
             ctx.lineWidth = 3;
             ctx.beginPath();
             ctx.arc(centerX, centerY, faceRadius, 0, Math.PI * 2);
             ctx.stroke();
             
-            // Draw eyes
+            // Draw eyes (with simulated blinking for drowsy state)
             const eyeSpacing = faceRadius * 0.5;
             const eyeY = centerY - faceRadius * 0.2;
             const eyeRadius = faceRadius * 0.15;
             
-            ctx.fillStyle = '#778da9';
+            ctx.fillStyle = isDrowsy && Math.sin(Date.now() / 200) > 0 ? '#0d1b2a' : '#778da9';
             ctx.beginPath();
             ctx.arc(centerX - eyeSpacing, eyeY, eyeRadius, 0, Math.PI * 2);
             ctx.arc(centerX + eyeSpacing, eyeY, eyeRadius, 0, Math.PI * 2);
             ctx.fill();
             
-            // Draw mouth
-            const mouthWidth = faceRadius * 0.6;
+            // Draw mouth (wider for yawning)
+            const mouthWidth = faceRadius * (currentMAR > 0.7 ? 0.8 : 0.6);
             const mouthHeight = faceRadius * 0.2;
             const mouthY = centerY + faceRadius * 0.3;
             
@@ -437,35 +609,171 @@
             ctx.ellipse(centerX, mouthY, mouthWidth, mouthHeight, 0, 0, Math.PI);
             ctx.stroke();
             
+            // Show drowsiness indicator
+            if (isAsleep || isDrowsy) {
+                drowsinessIndicator.style.display = 'block';
+                drowsinessIndicator.textContent = isAsleep ? 'SLEEP DETECTED!' : 'DROWSY';
+                drowsinessIndicator.style.backgroundColor = isAsleep ? 'rgba(244, 67, 54, 0.8)' : 'rgba(255, 152, 0, 0.8)';
+                drowsinessIndicator.style.color = '#ffffff';
+            } else {
+                drowsinessIndicator.style.display = 'none';
+            }
+            
             requestAnimationFrame(drawVideoFeed);
+        }
+
+        // Update all metrics
+        function updateMetrics() {
+            if (!isDetecting) return;
+            
+            // Simulate realistic metric changes
+            const timeFactor = Date.now() / 1000;
+            
+            // Update EAR (Eye Aspect Ratio)
+            if (isAsleep) {
+                currentEAR = 0.08 + Math.sin(timeFactor) * 0.02; // Very low when asleep
+            } else if (isDrowsy) {
+                currentEAR = 0.15 + Math.sin(timeFactor * 2) * 0.1; // Fluctuating low values
+            } else {
+                currentEAR = 0.25 + Math.sin(timeFactor * 0.5) * 0.05; // Normal range
+            }
+            
+            // Update MAR (Mouth Aspect Ratio)
+            if (Math.random() < 0.1) { // 10% chance of yawning
+                currentMAR = 0.7 + Math.random() * 0.2;
+            } else {
+                currentMAR = 0.4 + Math.random() * 0.2;
+            }
+            
+            // Update PERCLOS (Percentage of eye closure)
+            currentPERCLOS = Math.min(100, Math.max(0, 
+                isAsleep ? 85 + Math.random() * 15 :
+                isDrowsy ? 40 + Math.random() * 30 :
+                10 + Math.random() * 20
+            ));
+            
+            // Update Blink Frequency
+            currentBlinkFreq = isDrowsy ? 
+                (0.8 + Math.random() * 0.4) : // Higher blink rate when drowsy
+                (0.2 + Math.random() * 0.3);  // Normal blink rate
+            
+            // Update metric boxes with values
+            earValue.textContent = currentEAR.toFixed(2);
+            marValue.textContent = currentMAR.toFixed(2);
+            perclosValue.textContent = `${Math.round(currentPERCLOS)}%`;
+            blinkFreqValue.textContent = `${currentBlinkFreq.toFixed(1)}/s`;
+            
+            // Update box styles based on thresholds
+            updateMetricBoxStyles();
+            
+            // Update response time
+            responseTimeValue.textContent = `${Math.floor(Math.random() * 50) + 20}ms`;
+            
+            // Update other sensor values
+            updateSensorValues();
+            
+            // Check for drowsiness/sleep state changes
+            checkDrowsinessState();
+        }
+
+        // Update metric box styles based on thresholds
+        function updateMetricBoxStyles() {
+            // EAR thresholds
+            if (currentEAR < 0.15) {
+                earBox.className = 'metric-box alert';
+            } else if (currentEAR < 0.2) {
+                earBox.className = 'metric-box warning';
+            } else {
+                earBox.className = 'metric-box active';
+            }
+            
+            // MAR thresholds (for yawning)
+            if (currentMAR > 0.7) {
+                marBox.className = 'metric-box warning';
+            } else {
+                marBox.className = 'metric-box active';
+            }
+            
+            // PERCLOS thresholds
+            if (currentPERCLOS > 50) {
+                perclosBox.className = 'metric-box alert';
+            } else if (currentPERCLOS > 30) {
+                perclosBox.className = 'metric-box warning';
+            } else {
+                perclosBox.className = 'metric-box active';
+            }
+            
+            // Blink frequency thresholds
+            if (currentBlinkFreq > 0.8) {
+                blinkFreqBox.className = 'metric-box warning';
+            } else {
+                blinkFreqBox.className = 'metric-box active';
+            }
+        }
+
+        // Check and update drowsiness/sleep state
+        function checkDrowsinessState() {
+            const wasDrowsy = isDrowsy;
+            const wasAsleep = isAsleep;
+            
+            // Determine state based on metrics
+            if (currentEAR < 0.1 || currentPERCLOS > 80) {
+                // Asleep condition
+                if (!isAsleep) {
+                    isAsleep = true;
+                    isDrowsy = false;
+                    statusBox.textContent = 'ASLEEP';
+                    statusBox.className = 'status-box status-asleep';
+                    triggerSleepEvent();
+                }
+            } else if (currentEAR < 0.2 || currentPERCLOS > 50 || currentBlinkFreq > 0.8) {
+                // Drowsy condition
+                if (!isDrowsy && !isAsleep) {
+                    isDrowsy = true;
+                    isAsleep = false;
+                    statusBox.textContent = 'DROWSY';
+                    statusBox.className = 'status-box status-drowsy';
+                    triggerDrowsiness();
+                }
+            } else {
+                // Awake condition
+                if (isDrowsy || isAsleep) {
+                    isDrowsy = false;
+                    isAsleep = false;
+                    statusBox.textContent = 'AWAKE';
+                    statusBox.className = 'status-box status-awake';
+                    if (wasAsleep) {
+                        addLogEntry(
+                            new Date().toTimeString().split(' ')[0],
+                            'Driver woke up from sleep state.',
+                            false
+                        );
+                    } else if (wasDrowsy) {
+                        addLogEntry(
+                            new Date().toTimeString().split(' ')[0],
+                            'Driver returned to normal alert state.',
+                            false
+                        );
+                    }
+                }
+            }
         }
 
         // Update sensor values randomly
         function updateSensorValues() {
-            if (!isDetecting) return;
-            
-            // Simulate sensor data changes
-            const eyeClosure = Math.floor(Math.random() * 30);
+            const eyeClosure = Math.floor(currentPERCLOS);
             const headTilt = Math.floor(Math.random() * 15);
-            const blinkRate = (Math.random() * 0.5).toFixed(1);
-            const isYawning = Math.random() > 0.8 ? 'Yes' : 'No';
+            const blinkRate = currentBlinkFreq.toFixed(1);
+            const isYawning = currentMAR > 0.7 ? 'Yes' : 'No';
             
             eyeValue.textContent = `${eyeClosure}%`;
             headValue.textContent = `${headTilt}°`;
             blinkValue.textContent = `${blinkRate}/s`;
             yawnValue.textContent = isYawning;
-            
-            // Randomly trigger drowsiness (5% chance each update)
-            if (Math.random() < 0.05) {
-                triggerDrowsiness();
-            }
         }
 
         // Trigger drowsiness alert
         function triggerDrowsiness() {
-            statusIndicator.textContent = 'DROWSY';
-            statusIndicator.className = 'status status-drowsy';
-            
             eventsCount++;
             drowsyEvents.textContent = eventsCount;
             
@@ -477,22 +785,24 @@
             const now = new Date();
             const timeString = now.toTimeString().split(' ')[0];
             addLogEntry(timeString, 'Drowsiness detected! Alert level increased.', true);
-            
-            // Play alert sound (in a real app)
-            // new Audio('alert.mp3').play().catch(() => {});
         }
 
-        // Reset to normal state
-        function resetToNormal() {
-            statusIndicator.textContent = 'AWAKE';
-            statusIndicator.className = 'status status-awake';
+        // Trigger sleep event
+        function triggerSleepEvent() {
+            eventsCount += 2; // Sleep counts as more severe
+            drowsyEvents.textContent = eventsCount;
             
-            currentAlertLevel = 1;
+            // Maximum alert level for sleep
+            currentAlertLevel = 5;
             alertLevel.textContent = currentAlertLevel;
             
+            // Add urgent log entry
             const now = new Date();
             const timeString = now.toTimeString().split(' ')[0];
-            addLogEntry(timeString, 'Driver returned to normal state.', false);
+            addLogEntry(timeString, 'CRITICAL: Driver asleep at the wheel!', true);
+            
+            // Play emergency alert sound (in a real app)
+            // new Audio('emergency.mp3').play().catch(() => {});
         }
 
         // Add log entry
@@ -532,18 +842,13 @@
             initCanvas();
             
             detectionInterval = setInterval(() => {
-                updateSensorValues();
+                updateMetrics();
                 updateTimer();
-                
-                // Randomly reset to normal state (10% chance)
-                if (Math.random() < 0.1 && statusIndicator.textContent === 'DROWSY') {
-                    resetToNormal();
-                }
-            }, 1000);
+            }, 500);
             
             const now = new Date();
             const timeString = now.toTimeString().split(' ')[0];
-            addLogEntry(timeString, 'Drowsiness detection started.', false);
+            addLogEntry(timeString, 'Drowsiness detection started with enhanced metrics.', false);
         }
 
         // Stop detection
@@ -553,6 +858,16 @@
             stopBtn.disabled = true;
             
             clearInterval(detectionInterval);
+            
+            // Hide overlays
+            faceOverlay.style.display = 'none';
+            drowsinessIndicator.style.display = 'none';
+            
+            // Reset state
+            isDrowsy = false;
+            isAsleep = false;
+            statusBox.textContent = 'AWAKE';
+            statusBox.className = 'status-box status-awake';
             
             const now = new Date();
             const timeString = now.toTimeString().split(' ')[0];
@@ -564,19 +879,29 @@
             eventsCount = 0;
             elapsedTime = 0;
             currentAlertLevel = 1;
+            isDrowsy = false;
+            isAsleep = false;
             
             drowsyEvents.textContent = '0';
             detectionTime.textContent = '00:00';
             alertLevel.textContent = '1';
             
+            // Reset metrics to normal values
+            currentEAR = 0.28;
+            currentMAR = 0.45;
+            currentPERCLOS = 12;
+            currentBlinkFreq = 0.3;
+            
+            updateMetricBoxStyles();
+            statusBox.textContent = 'AWAKE';
+            statusBox.className = 'status-box status-awake';
+            
             logsContainer.innerHTML = `
                 <div class="log-item log-normal">
                     <div class="log-time">${new Date().toTimeString().split(' ')[0]}</div>
-                    <div class="log-message">Logs reset</div>
+                    <div class="log-message">System reset - all logs cleared</div>
                 </div>
             `;
-            
-            resetToNormal();
         }
 
         // Event Listeners
@@ -586,8 +911,9 @@
 
         // Initialize
         window.addEventListener('resize', initCanvas);
-        initCanvas();
+        
+        // Initial metric box styling
+        updateMetricBoxStyles();
     </script>
 </body>
 </html>
-
