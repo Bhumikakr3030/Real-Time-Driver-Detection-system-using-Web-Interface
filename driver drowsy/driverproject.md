@@ -1,0 +1,632 @@
+(base) C:\\Users\\Admin>conda create -n drawsiness python=3.11.11
+
+3 channel Terms of Service accepted
+
+WARNING: A conda environment already exists at 'C:\\Users\\Admin\\anaconda3\\envs\\drawsiness'
+
+
+
+Remove existing environment?
+
+This will remove ALL directories contained within this specified prefix directory, including any other conda environments.
+
+
+
+&#x20;(y/\[n])? y
+
+
+
+Channels:
+
+&#x20;- defaults
+
+Platform: win-64
+
+Collecting package metadata (repodata.json): done
+
+Solving environment: done
+
+
+
+
+
+==> WARNING: A newer version of conda exists. <==
+
+&#x20;   current version: 26.1.1
+
+&#x20;   latest version: 26.3.2
+
+
+
+Please update conda by running
+
+
+
+&#x20;   $ conda update -n base -c defaults conda
+
+
+
+
+
+
+
+\## Package Plan ##
+
+
+
+&#x20; environment location: C:\\Users\\Admin\\anaconda3\\envs\\drawsiness
+
+
+
+&#x20; added / updated specs:
+
+&#x20;   - python=3.11.11
+
+
+
+
+
+The following NEW packages will be INSTALLED:
+
+
+
+&#x20; bzip2              pkgs/main/win-64::bzip2-1.0.8-h2bbff1b\_6
+
+&#x20; ca-certificates    pkgs/main/win-64::ca-certificates-2026.3.19-haa95532\_0
+
+&#x20; libffi             pkgs/main/win-64::libffi-3.4.8-h2b21627\_2
+
+&#x20; libzlib            pkgs/main/win-64::libzlib-1.3.1-h1c6eee0\_1
+
+&#x20; openssl            pkgs/main/win-64::openssl-3.5.6-hbb43b14\_0
+
+&#x20; packaging          pkgs/main/win-64::packaging-26.0-py311haa95532\_0
+
+&#x20; pip                pkgs/main/noarch::pip-26.0.1-pyhc872135\_1
+
+&#x20; python             pkgs/main/win-64::python-3.11.11-h4607a30\_0
+
+&#x20; setuptools         pkgs/main/win-64::setuptools-82.0.1-py311haa95532\_0
+
+&#x20; sqlite             pkgs/main/win-64::sqlite-3.51.2-hee5a0db\_0
+
+&#x20; tk                 pkgs/main/win-64::tk-8.6.15-hf199647\_0
+
+&#x20; tzdata             pkgs/main/noarch::tzdata-2026a-he532380\_0
+
+&#x20; ucrt               pkgs/main/win-64::ucrt-10.0.22621.0-haa95532\_0
+
+&#x20; vc                 pkgs/main/win-64::vc-14.3-h2df5915\_10
+
+&#x20; vc14\_runtime       pkgs/main/win-64::vc14\_runtime-14.44.35208-h4927774\_10
+
+&#x20; vs2015\_runtime     pkgs/main/win-64::vs2015\_runtime-14.44.35208-ha6b5a95\_10
+
+&#x20; wheel              pkgs/main/win-64::wheel-0.46.3-py311haa95532\_0
+
+&#x20; xz                 pkgs/main/win-64::xz-5.8.2-h53af0af\_0
+
+&#x20; zlib               pkgs/main/win-64::zlib-1.3.1-h1c6eee0\_1
+
+
+
+
+
+Proceed (\[y]/n)? y
+
+
+
+
+
+Downloading and Extracting Packages:
+
+
+
+Preparing transaction: done
+
+Verifying transaction: done
+
+Executing transaction: done
+
+\#
+
+\# To activate this environment, use
+
+\#
+
+\#     $ conda activate drawsiness
+
+\#
+
+\# To deactivate an active environment, use
+
+\#
+
+\#     $ conda deactivate
+
+
+
+
+
+(base) C:\\Users\\Admin>conda activate drawsiness
+
+
+
+(drawsiness) C:\\Users\\Admin>pip install Flask==3.1.1
+
+Collecting Flask==3.1.1
+
+&#x20; Using cached flask-3.1.1-py3-none-any.whl.metadata (3.0 kB)
+
+Collecting blinker>=1.9.0 (from Flask==3.1.1)
+
+&#x20; Using cached blinker-1.9.0-py3-none-any.whl.metadata (1.6 kB)
+
+Collecting click>=8.1.3 (from Flask==3.1.1)
+
+&#x20; Using cached click-8.3.3-py3-none-any.whl.metadata (2.6 kB)
+
+Collecting itsdangerous>=2.2.0 (from Flask==3.1.1)
+
+&#x20; Using cached itsdangerous-2.2.0-py3-none-any.whl.metadata (1.9 kB)
+
+Collecting jinja2>=3.1.2 (from Flask==3.1.1)
+
+&#x20; Using cached jinja2-3.1.6-py3-none-any.whl.metadata (2.9 kB)
+
+Collecting markupsafe>=2.1.1 (from Flask==3.1.1)
+
+&#x20; Downloading markupsafe-3.0.3-cp311-cp311-win\_amd64.whl.metadata (2.8 kB)
+
+Collecting werkzeug>=3.1.0 (from Flask==3.1.1)
+
+&#x20; Using cached werkzeug-3.1.8-py3-none-any.whl.metadata (4.0 kB)
+
+Collecting colorama (from click>=8.1.3->Flask==3.1.1)
+
+&#x20; Using cached colorama-0.4.6-py2.py3-none-any.whl.metadata (17 kB)
+
+Using cached flask-3.1.1-py3-none-any.whl (103 kB)
+
+Using cached blinker-1.9.0-py3-none-any.whl (8.5 kB)
+
+Using cached click-8.3.3-py3-none-any.whl (110 kB)
+
+Using cached itsdangerous-2.2.0-py3-none-any.whl (16 kB)
+
+Using cached jinja2-3.1.6-py3-none-any.whl (134 kB)
+
+Downloading markupsafe-3.0.3-cp311-cp311-win\_amd64.whl (15 kB)
+
+Using cached werkzeug-3.1.8-py3-none-any.whl (226 kB)
+
+Using cached colorama-0.4.6-py2.py3-none-any.whl (25 kB)
+
+Installing collected packages: markupsafe, itsdangerous, colorama, blinker, werkzeug, jinja2, click, Flask
+
+Successfully installed Flask-3.1.1 blinker-1.9.0 click-8.3.3 colorama-0.4.6 itsdangerous-2.2.0 jinja2-3.1.6 markupsafe-3.0.3 werkzeug-3.1.8
+
+
+
+(drawsiness) C:\\Users\\Admin>pip install opencv-python==4.12.0.88
+
+Collecting opencv-python==4.12.0.88
+
+&#x20; Using cached opencv\_python-4.12.0.88-cp37-abi3-win\_amd64.whl.metadata (19 kB)
+
+Collecting numpy<2.3.0,>=2 (from opencv-python==4.12.0.88)
+
+&#x20; Downloading numpy-2.2.6-cp311-cp311-win\_amd64.whl.metadata (60 kB)
+
+Using cached opencv\_python-4.12.0.88-cp37-abi3-win\_amd64.whl (39.0 MB)
+
+Downloading numpy-2.2.6-cp311-cp311-win\_amd64.whl (12.9 MB)
+
+&#x20;  ---------------------------------------- 12.9/12.9 MB 3.9 MB/s  0:00:03
+
+Installing collected packages: numpy, opencv-python
+
+Successfully installed numpy-2.2.6 opencv-python-4.12.0.88
+
+
+
+(drawsiness) C:\\Users\\Admin>pip install mediapipe==0.10.14
+
+Collecting mediapipe==0.10.14
+
+&#x20; Downloading mediapipe-0.10.14-cp311-cp311-win\_amd64.whl.metadata (9.9 kB)
+
+Collecting absl-py (from mediapipe==0.10.14)
+
+&#x20; Using cached absl\_py-2.4.0-py3-none-any.whl.metadata (3.3 kB)
+
+Collecting attrs>=19.1.0 (from mediapipe==0.10.14)
+
+&#x20; Using cached attrs-26.1.0-py3-none-any.whl.metadata (8.8 kB)
+
+Collecting flatbuffers>=2.0 (from mediapipe==0.10.14)
+
+&#x20; Using cached flatbuffers-25.12.19-py2.py3-none-any.whl.metadata (1.0 kB)
+
+Collecting jax (from mediapipe==0.10.14)
+
+&#x20; Downloading jax-0.10.0-py3-none-any.whl.metadata (13 kB)
+
+Collecting jaxlib (from mediapipe==0.10.14)
+
+&#x20; Downloading jaxlib-0.10.0-cp311-cp311-win\_amd64.whl.metadata (1.4 kB)
+
+Collecting matplotlib (from mediapipe==0.10.14)
+
+&#x20; Downloading matplotlib-3.10.9-cp311-cp311-win\_amd64.whl.metadata (52 kB)
+
+Requirement already satisfied: numpy in .\\anaconda3\\envs\\drawsiness\\Lib\\site-packages (from mediapipe==0.10.14) (2.2.6)
+
+Collecting opencv-contrib-python (from mediapipe==0.10.14)
+
+&#x20; Using cached opencv\_contrib\_python-4.13.0.92-cp37-abi3-win\_amd64.whl.metadata (20 kB)
+
+Collecting protobuf<5,>=4.25.3 (from mediapipe==0.10.14)
+
+&#x20; Using cached protobuf-4.25.9-cp310-abi3-win\_amd64.whl.metadata (541 bytes)
+
+Collecting sounddevice>=0.4.4 (from mediapipe==0.10.14)
+
+&#x20; Using cached sounddevice-0.5.5-py3-none-win\_amd64.whl.metadata (1.4 kB)
+
+Collecting cffi (from sounddevice>=0.4.4->mediapipe==0.10.14)
+
+&#x20; Downloading cffi-2.0.0-cp311-cp311-win\_amd64.whl.metadata (2.6 kB)
+
+Collecting pycparser (from cffi->sounddevice>=0.4.4->mediapipe==0.10.14)
+
+&#x20; Using cached pycparser-3.0-py3-none-any.whl.metadata (8.2 kB)
+
+Collecting ml\_dtypes>=0.5.0 (from jax->mediapipe==0.10.14)
+
+&#x20; Downloading ml\_dtypes-0.5.4-cp311-cp311-win\_amd64.whl.metadata (9.2 kB)
+
+Collecting opt\_einsum (from jax->mediapipe==0.10.14)
+
+&#x20; Using cached opt\_einsum-3.4.0-py3-none-any.whl.metadata (6.3 kB)
+
+Collecting scipy>=1.14 (from jax->mediapipe==0.10.14)
+
+&#x20; Downloading scipy-1.17.1-cp311-cp311-win\_amd64.whl.metadata (60 kB)
+
+Collecting contourpy>=1.0.1 (from matplotlib->mediapipe==0.10.14)
+
+&#x20; Downloading contourpy-1.3.3-cp311-cp311-win\_amd64.whl.metadata (5.5 kB)
+
+Collecting cycler>=0.10 (from matplotlib->mediapipe==0.10.14)
+
+&#x20; Using cached cycler-0.12.1-py3-none-any.whl.metadata (3.8 kB)
+
+Collecting fonttools>=4.22.0 (from matplotlib->mediapipe==0.10.14)
+
+&#x20; Downloading fonttools-4.62.1-cp311-cp311-win\_amd64.whl.metadata (119 kB)
+
+Collecting kiwisolver>=1.3.1 (from matplotlib->mediapipe==0.10.14)
+
+&#x20; Downloading kiwisolver-1.5.0-cp311-cp311-win\_amd64.whl.metadata (5.2 kB)
+
+Requirement already satisfied: packaging>=20.0 in .\\anaconda3\\envs\\drawsiness\\Lib\\site-packages (from matplotlib->mediapipe==0.10.14) (26.0)
+
+Collecting pillow>=8 (from matplotlib->mediapipe==0.10.14)
+
+&#x20; Downloading pillow-12.2.0-cp311-cp311-win\_amd64.whl.metadata (9.0 kB)
+
+Collecting pyparsing>=3 (from matplotlib->mediapipe==0.10.14)
+
+&#x20; Using cached pyparsing-3.3.2-py3-none-any.whl.metadata (5.8 kB)
+
+Collecting python-dateutil>=2.7 (from matplotlib->mediapipe==0.10.14)
+
+&#x20; Using cached python\_dateutil-2.9.0.post0-py2.py3-none-any.whl.metadata (8.4 kB)
+
+Collecting six>=1.5 (from python-dateutil>=2.7->matplotlib->mediapipe==0.10.14)
+
+&#x20; Using cached six-1.17.0-py2.py3-none-any.whl.metadata (1.7 kB)
+
+Downloading mediapipe-0.10.14-cp311-cp311-win\_amd64.whl (50.8 MB)
+
+&#x20;  ---------------------------------------- 50.8/50.8 MB 3.9 MB/s  0:00:12
+
+Using cached protobuf-4.25.9-cp310-abi3-win\_amd64.whl (413 kB)
+
+Using cached attrs-26.1.0-py3-none-any.whl (67 kB)
+
+Using cached flatbuffers-25.12.19-py2.py3-none-any.whl (26 kB)
+
+Using cached sounddevice-0.5.5-py3-none-win\_amd64.whl (365 kB)
+
+Using cached absl\_py-2.4.0-py3-none-any.whl (135 kB)
+
+Downloading cffi-2.0.0-cp311-cp311-win\_amd64.whl (182 kB)
+
+Downloading jax-0.10.0-py3-none-any.whl (3.1 MB)
+
+&#x20;  ---------------------------------------- 3.1/3.1 MB 4.0 MB/s  0:00:00
+
+Downloading jaxlib-0.10.0-cp311-cp311-win\_amd64.whl (64.2 MB)
+
+&#x20;  ---------------------------------------- 64.2/64.2 MB 3.8 MB/s  0:00:16
+
+Downloading ml\_dtypes-0.5.4-cp311-cp311-win\_amd64.whl (210 kB)
+
+Downloading scipy-1.17.1-cp311-cp311-win\_amd64.whl (36.6 MB)
+
+&#x20;  ---------------------------------------- 36.6/36.6 MB 3.9 MB/s  0:00:09
+
+Downloading matplotlib-3.10.9-cp311-cp311-win\_amd64.whl (8.2 MB)
+
+&#x20;  ---------------------------------------- 8.2/8.2 MB 3.9 MB/s  0:00:02
+
+Downloading contourpy-1.3.3-cp311-cp311-win\_amd64.whl (225 kB)
+
+Using cached cycler-0.12.1-py3-none-any.whl (8.3 kB)
+
+Downloading fonttools-4.62.1-cp311-cp311-win\_amd64.whl (2.3 MB)
+
+&#x20;  ---------------------------------------- 2.3/2.3 MB 3.8 MB/s  0:00:00
+
+Downloading kiwisolver-1.5.0-cp311-cp311-win\_amd64.whl (73 kB)
+
+Downloading pillow-12.2.0-cp311-cp311-win\_amd64.whl (7.1 MB)
+
+&#x20;  ---------------------------------------- 7.1/7.1 MB 3.9 MB/s  0:00:01
+
+Using cached pyparsing-3.3.2-py3-none-any.whl (122 kB)
+
+Using cached python\_dateutil-2.9.0.post0-py2.py3-none-any.whl (229 kB)
+
+Using cached six-1.17.0-py2.py3-none-any.whl (11 kB)
+
+Using cached opencv\_contrib\_python-4.13.0.92-cp37-abi3-win\_amd64.whl (46.5 MB)
+
+Using cached opt\_einsum-3.4.0-py3-none-any.whl (71 kB)
+
+Using cached pycparser-3.0-py3-none-any.whl (48 kB)
+
+Installing collected packages: flatbuffers, six, scipy, pyparsing, pycparser, protobuf, pillow, opt\_einsum, opencv-contrib-python, ml\_dtypes, kiwisolver, fonttools, cycler, contourpy, attrs, absl-py, python-dateutil, jaxlib, cffi, sounddevice, matplotlib, jax, mediapipe
+
+Successfully installed absl-py-2.4.0 attrs-26.1.0 cffi-2.0.0 contourpy-1.3.3 cycler-0.12.1 flatbuffers-25.12.19 fonttools-4.62.1 jax-0.10.0 jaxlib-0.10.0 kiwisolver-1.5.0 matplotlib-3.10.9 mediapipe-0.10.14 ml\_dtypes-0.5.4 opencv-contrib-python-4.13.0.92 opt\_einsum-3.4.0 pillow-12.2.0 protobuf-4.25.9 pycparser-3.0 pyparsing-3.3.2 python-dateutil-2.9.0.post0 scipy-1.17.1 six-1.17.0 sounddevice-0.5.5
+
+
+
+(drawsiness) C:\\Users\\Admin>cd /d D:\\application\\application
+
+
+
+(drawsiness) D:\\application\\application>~~notepad app.py~~
+
+
+
+(drawsiness) D:\\application\\application>python app.py
+
+INFO: Created TensorFlow Lite XNNPACK delegate for CPU.
+
+&#x20;\* Serving Flask app 'app'
+
+&#x20;\* Debug mode: on
+
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+
+W0000 00:00:1777916817.665807    1580 inference\_feedback\_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+
+W0000 00:00:1777916817.681500   11280 inference\_feedback\_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+
+&#x20;\* Running on http://127.0.0.1:5000
+
+Press CTRL+C to quit
+
+&#x20;\* Restarting with stat
+
+INFO: Created TensorFlow Lite XNNPACK delegate for CPU.
+
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+
+W0000 00:00:1777916818.983786   15972 inference\_feedback\_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+
+W0000 00:00:1777916819.005677   20600 inference\_feedback\_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+
+&#x20;\* Debugger is active!
+
+&#x20;\* Debugger PIN: 504-811-617
+
+127.0.0.1 - - \[04/May/2026 23:17:25] "GET / HTTP/1.1" 200 -
+
+127.0.0.1 - - \[04/May/2026 23:17:25] "GET /favicon.ico HTTP/1.1" 404 -
+
+127.0.0.1 - - \[04/May/2026 23:17:27] "GET /monitor HTTP/1.1" 200 -
+
+127.0.0.1 - - \[04/May/2026 23:17:27] "GET /api/state HTTP/1.1" 200 -
+
+127.0.0.1 - - \[04/May/2026 23:17:27] "GET /api/state HTTP/1.1" 200 -
+
+127.0.0.1 - - \[04/May/2026 23:17:28] "GET /api/state HTTP/1.1" 200 -
+
+C:\\Users\\Admin\\anaconda3\\envs\\drawsiness\\Lib\\site-packages\\google\\protobuf\\symbol\_database.py:55: UserWarning: SymbolDatabase.GetPrototype() is deprecated. Please use message\_factory.GetMessageClass() instead. SymbolDatabase.GetPrototype() will be removed soon.
+
+&#x20; warnings.warn('SymbolDatabase.GetPrototype() is deprecated. Please '
+
+127.0.0.1 - - \[04/May/2026 23:17:28] "GET /video HTTP/1.1" 200 -
+
+127.0.0.1 - - \[04/May/2026 23:17:29] "GET /api/state HTTP/1.1" 200 -
+
+127.0.0.1 - - \[04/May/2026 23:17:29] "POST /api/start HTTP/1.1" 204 -
+
+127.0.0.1 - - \[04/May/2026 23:17:29] "GET /api/state HTTP/1.1" 200 -
+
+127.0.0.1 - - \[04/May/2026 23:17:30] "GET /api/state HTTP/1.1" 200 -
+
+127.0.0.1 - - \[04/May/2026 23:17:31] "GET /api/state HTTP/1.1" 200 -
+
+127.0.0.1 - - \[04/May/2026 23:17:31] "GET /api/state HTTP/1.1" 200 -
+
+127.0.0.1 - - \[04/May/2026 23:17:32] "GET /api/state HTTP/1.1" 200 -
+
+127.0.0.1 - - \[04/May/2026 23:17:33] "GET /api/state HTTP/1.1" 200 -
+
+127.0.0.1 - - \[04/May/2026 23:17:34] "GET /api/state HTTP/1.1" 200 -
+
+127.0.0.1 - - \[04/May/2026 23:17:34] "GET /api/state HTTP/1.1" 200 -
+
+127.0.0.1 - - \[04/May/2026 23:17:35] "GET /api/state HTTP/1.1" 200 -
+
+127.0.0.1 - - \[04/May/2026 23:17:36] "GET /api/state HTTP/1.1" 200 -
+
+127.0.0.1 - - \[04/May/2026 23:17:36] "GET /api/state HTTP/1.1" 200 -
+
+127.0.0.1 - - \[04/May/2026 23:17:37] "GET /api/state HTTP/1.1" 200 -
+
+127.0.0.1 - - \[04/May/2026 23:17:38] "GET /api/state HTTP/1.1" 200 -
+
+127.0.0.1 - - \[04/May/2026 23:17:38] "GET /api/state HTTP/1.1" 200 -
+
+127.0.0.1 - - \[04/May/2026 23:17:39] "GET /api/state HTTP/1.1" 200 -
+
+127.0.0.1 - - \[04/May/2026 23:17:40] "GET /api/state HTTP/1.1" 200 -
+
+127.0.0.1 - - \[04/May/2026 23:17:41] "GET /api/state HTTP/1.1" 200 -
+
+127.0.0.1 - - \[04/May/2026 23:17:41] "GET /api/state HTTP/1.1" 200 -
+
+127.0.0.1 - - \[04/May/2026 23:17:42] "GET /api/state HTTP/1.1" 200 -
+
+127.0.0.1 - - \[04/May/2026 23:17:43] "GET /api/state HTTP/1.1" 200 -
+
+127.0.0.1 - - \[04/May/2026 23:17:43] "GET /api/state HTTP/1.1" 200 -
+
+127.0.0.1 - - \[04/May/2026 23:17:44] "GET /api/state HTTP/1.1" 200 -
+
+127.0.0.1 - - \[04/May/2026 23:17:45] "GET /api/state HTTP/1.1" 200 -
+
+127.0.0.1 - - \[04/May/2026 23:17:45] "GET /api/state HTTP/1.1" 200 -
+
+127.0.0.1 - - \[04/May/2026 23:17:46] "GET /api/state HTTP/1.1" 200 -
+
+127.0.0.1 - - \[04/May/2026 23:17:47] "GET /api/state HTTP/1.1" 200 -
+
+127.0.0.1 - - \[04/May/2026 23:17:48] "GET /api/state HTTP/1.1" 200 -
+
+127.0.0.1 - - \[04/May/2026 23:17:48] "GET /api/state HTTP/1.1" 200 -
+
+127.0.0.1 - - \[04/May/2026 23:17:49] "GET /api/state HTTP/1.1" 200 -
+
+127.0.0.1 - - \[04/May/2026 23:17:50] "GET /api/state HTTP/1.1" 200 -
+
+127.0.0.1 - - \[04/May/2026 23:17:50] "GET /api/state HTTP/1.1" 200 -
+
+127.0.0.1 - - \[04/May/2026 23:17:51] "GET /api/state HTTP/1.1" 200 -
+
+127.0.0.1 - - \[04/May/2026 23:17:52] "GET /api/state HTTP/1.1" 200 -
+
+127.0.0.1 - - \[04/May/2026 23:17:52] "GET /api/state HTTP/1.1" 200 -
+
+127.0.0.1 - - \[04/May/2026 23:17:53] "GET /api/state HTTP/1.1" 200 -
+
+127.0.0.1 - - \[04/May/2026 23:17:54] "GET /api/state HTTP/1.1" 200 -
+
+127.0.0.1 - - \[04/May/2026 23:17:55] "GET /api/state HTTP/1.1" 200 -
+
+127.0.0.1 - - \[04/May/2026 23:17:55] "GET /api/state HTTP/1.1" 200 -
+
+127.0.0.1 - - \[04/May/2026 23:17:56] "GET /api/state HTTP/1.1" 200 -
+
+127.0.0.1 - - \[04/May/2026 23:17:57] "GET /api/state HTTP/1.1" 200 -
+
+127.0.0.1 - - \[04/May/2026 23:17:57] "GET /api/state HTTP/1.1" 200 -
+
+127.0.0.1 - - \[04/May/2026 23:17:58] "GET /api/state HTTP/1.1" 200 -
+
+127.0.0.1 - - \[04/May/2026 23:17:59] "GET /api/state HTTP/1.1" 200 -
+
+127.0.0.1 - - \[04/May/2026 23:17:59] "GET /api/state HTTP/1.1" 200 -
+
+127.0.0.1 - - \[04/May/2026 23:18:00] "GET /api/state HTTP/1.1" 200 -
+
+127.0.0.1 - - \[04/May/2026 23:18:01] "GET /api/state HTTP/1.1" 200 -
+
+127.0.0.1 - - \[04/May/2026 23:18:02] "GET /api/state HTTP/1.1" 200 -
+
+127.0.0.1 - - \[04/May/2026 23:18:02] "GET /api/state HTTP/1.1" 200 -
+
+127.0.0.1 - - \[04/May/2026 23:18:03] "GET /api/state HTTP/1.1" 200 -
+
+127.0.0.1 - - \[04/May/2026 23:18:04] "GET /api/state HTTP/1.1" 200 -
+
+127.0.0.1 - - \[04/May/2026 23:18:04] "GET /api/state HTTP/1.1" 200 -
+
+127.0.0.1 - - \[04/May/2026 23:18:05] "GET /api/state HTTP/1.1" 200 -
+
+127.0.0.1 - - \[04/May/2026 23:18:06] "GET /api/state HTTP/1.1" 200 -
+
+127.0.0.1 - - \[04/May/2026 23:18:06] "GET /api/state HTTP/1.1" 200 -
+
+127.0.0.1 - - \[04/May/2026 23:18:07] "POST /api/reset HTTP/1.1" 204 -
+
+127.0.0.1 - - \[04/May/2026 23:18:07] "GET /api/state HTTP/1.1" 200 -
+
+127.0.0.1 - - \[04/May/2026 23:18:07] "GET /api/state HTTP/1.1" 200 -
+
+127.0.0.1 - - \[04/May/2026 23:18:08] "GET /api/state HTTP/1.1" 200 -
+
+127.0.0.1 - - \[04/May/2026 23:18:08] "POST /api/stop HTTP/1.1" 204 -
+
+127.0.0.1 - - \[04/May/2026 23:18:09] "GET /api/state HTTP/1.1" 200 -
+
+127.0.0.1 - - \[04/May/2026 23:18:09] "GET /api/state HTTP/1.1" 200 -
+
+127.0.0.1 - - \[04/May/2026 23:18:10] "GET /api/state HTTP/1.1" 200 -
+
+127.0.0.1 - - \[04/May/2026 23:18:11] "GET /api/state HTTP/1.1" 200 -
+
+127.0.0.1 - - \[04/May/2026 23:18:11] "GET /api/state HTTP/1.1" 200 -
+
+127.0.0.1 - - \[04/May/2026 23:18:12] "GET /api/state HTTP/1.1" 200 -
+
+127.0.0.1 - - \[04/May/2026 23:18:13] "GET /api/state HTTP/1.1" 200 -
+
+127.0.0.1 - - \[04/May/2026 23:18:13] "GET /api/state HTTP/1.1" 200 -
+
+127.0.0.1 - - \[04/May/2026 23:18:14] "POST /api/start HTTP/1.1" 204 -
+
+127.0.0.1 - - \[04/May/2026 23:18:14] "GET /api/state HTTP/1.1" 200 -
+
+127.0.0.1 - - \[04/May/2026 23:18:15] "GET /api/state HTTP/1.1" 200 -
+
+127.0.0.1 - - \[04/May/2026 23:18:16] "GET /api/state HTTP/1.1" 200 -
+
+127.0.0.1 - - \[04/May/2026 23:18:16] "POST /api/stop HTTP/1.1" 204 -
+
+127.0.0.1 - - \[04/May/2026 23:18:16] "GET /api/state HTTP/1.1" 200 -
+
+127.0.0.1 - - \[04/May/2026 23:18:17] "POST /api/reset HTTP/1.1" 204 -
+
+127.0.0.1 - - \[04/May/2026 23:18:17] "GET /api/state HTTP/1.1" 200 -
+
+127.0.0.1 - - \[04/May/2026 23:18:17] "GET /api/state HTTP/1.1" 200 -
+
+127.0.0.1 - - \[04/May/2026 23:18:18] "GET /api/state HTTP/1.1" 200 -
+
+127.0.0.1 - - \[04/May/2026 23:18:18] "GET /api/state HTTP/1.1" 200 -
+
+127.0.0.1 - - \[04/May/2026 23:18:19] "GET /api/state HTTP/1.1" 200 -
+
+127.0.0.1 - - \[04/May/2026 23:18:20] "GET /api/state HTTP/1.1" 200 -
+
+127.0.0.1 - - \[04/May/2026 23:18:20] "GET /api/state HTTP/1.1" 200 -
+
+127.0.0.1 - - \[04/May/2026 23:18:21] "GET /api/state HTTP/1.1" 200 -
+
+127.0.0.1 - - \[04/May/2026 23:18:22] "GET /api/state HTTP/1.1" 200 -
+
+127.0.0.1 - - \[04/May/2026 23:18:23] "GET /api/state HTTP/1.1" 200 -
+
+
+
+(drawsiness) D:\\application\\application>
+

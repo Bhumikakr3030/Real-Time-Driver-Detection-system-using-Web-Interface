@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Driver Drowsiness Detection - Monitoring</title>
+    <style>
+        :root {
+            --bg: #0d1b2a;
+            --panel: rgba(26,42,58,0.8);
+            --border: #415a77;
+            --text: #e0e1dd;
+            --green: #4caf50;
+            --orange: #ff9800;
+            --red: #f44336;
+        }
+        body {
+            margin:0; padding:20px; background:var(--bg); color:var(--text);
+            font-family:'Segoe UI',sans-serif; min-height:100vh;
+        }
+        .container { max-width:1200px; margin:0 auto; }
+        header { text-align:center; padding:1.5em 0; }
+        h1 { margin:0; font-size:2.4rem; }
+        .dashboard { display:grid; grid-template-columns:1fr 1fr; gap:1.5em; }
+        @media (max-width:900px) { .dashboard { grid-template-columns:1fr; } }
+
+        .panel {
+            background:var(--panel); border:1px solid var(--border);
+            border-radius:12px; padding:1.5em; box-shadow:0 6px 20px #0006;
+        }
+        .panel-title { font-size:1.4rem; margin-bottom:1em; display:flex; align-items:center; gap:0.6em; }
+
+        .video-container {
+            position:relative; background:#000; border-radius:10px; overflow:hidden;
+            aspect-ratio:4/3; max-width:100%;
+        }
+        #video { width:100%; height:100%; object-fit:cover; }
+        .overlay-info {
+            position:absolute; top:10px; left:10px; background:rgba(0,0,0,0.6);
+            padding:0.5em 1em; border-radius:6px; font-weight:bold;
+        }
+        .face-count {
+            position:absolute; top:10px; right:10px; background:rgba(0,0,0,0.6);
+            padding:0.5em 1em; border-radius:6px;
+        }
+
+        .controls { display:flex; gap:1em; margin:1em 0; flex-wrap:wrap; }
+        button {
+            flex:1; padding:0.9em; font-size:1rem; font-weight:bold;
+            border:none; border-radius:8px; cursor:pointer; transition:0.2s;
+            min-width:140px;
+        }
+        .btn-start { background:var(--green); color:white; }
+        .btn-stop  { background:var(--red);   color:white; }
+        .btn-reset { background:var(--orange); color:white; }
+        button:disabled { opacity:0.5; cursor:not-allowed; }
+
+        .metrics { display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:1em; margin:1.5em 0; }
+        .metric {
+            background:rgba(13,27,42,0.7); padding:1em; border-radius:10px;
+            text-align:center; border:2px solid var(--border);
+        }
+        .metric.awake  { border-color:var(--green); }
+        .metric.warning { border-color:var(--orange); }
+        .metric.alert  { border-color:var(--red); animation:pulse 1.8s infinite; }
+
+        .status-box {
+            padding:1.2em; border-radius:10px; font-size:1.6rem; font-weight:bold;
+            text-align:center; margin:1em 0; border:3px solid;
+        }
+        .status-awake  { background:rgba(76,175,80,0.15); border-color:var(--green); color:var(--green); }
+        .status-drowsy { background:rgba(255,152,0,0.15); border-color:var(--orange); color:var(--orange); animation:pulse 1.5s infinite; }
+
+        .logs { max-height:220px; overflow-y:auto; background:rgba(13,27,42,0.7); border-radius:10px; padding:1em; }
+        .log { padding:0.6em; margin-bottom:0.5em; border-radius:6px; }
+        .log-alert { background:rgba(244,67,54,0.15); border-left:4px solid var(--red); }
+
+        @keyframes pulse { 0%,100% { transform:scale(1); } 50% { transform:scale(1.03); } }
+
+        footer { text-align:center; margin-top:2em; color:#778da9; font-size:0.9rem; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>🚗 Driver Drowsiness Detection System</h1>
+        <p>Real-time face detection for driver alertness monitoring</p>
+    </header>
+
+    <div class="dashboard">
+        <!-- Left panel: Camera + controls + metrics + status -->
+        <div class="panel">
+            <div class="panel-title">📹 Live Camera Feed</div>
+
+            <div class="video-container">
+                <img id="video" src="/video" alt="Live Feed">
+                <div class="overlay-info" id="detectionStatus">Detection: OFF</div>
+                <div class="face-count" id="faceCount">Faces: 0</div>
+            </div>
+
+            <div class="controls">
+                <button id="startBtn" class="btn-start">Start Detection</button>
+                <button id="stopBtn" class="btn-stop" disabled>Stop Detection</button>
+                <button id="resetBtn" class="btn-reset">Reset</button>
+            </div>
+
+            <div class="metrics">
+                <div class="metric" id="earMetric">
+                    <div>EYE ASPECT RATIO</div>
+                    <div id="ear">0.25</div>
+                </div>
+                <div class="metric" id="marMetric">
+                    <div>MOUTH ASPECT RATIO</div>
+                    <div id="mar">0.45</div>
+                </div>
+                <div class="metric" id="perclosMetric">
+                    <div>EYE CLOSURE %</div>
+                    <div id="perclos">15%</div>
+                </div>
+                <div class="metric" id="blinkMetric">
+                    <div>BLINK RATE</div>
+                    <div id="blink">0.3/s</div>
+                </div>
+            </div>
+
+            <div id="statusBox" class="status-box status-awake">AWAKE</div>
+        </div>
+
+        <!-- Right panel: Status & logs -->
+        <div class="panel">
+            <div class="panel-title">📊 System Status & Alerts</div>
+
+            <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:1em; text-align:center; margin-bottom:1.5em;">
+                <div><small>DETECTION TIME</small><div id="time">00:00</div></div>
+                <div><small>DROWSY EVENTS</small><div id="events">0</div></div>
+                <div><small>ALERT LEVEL</small><div id="alert">1</div></div>
+            </div>
+
+            <div class="logs" id="logs"></div>
+        </div>
+    </div>
+
+    <footer>
+        Driver Drowsiness Detection System © 2025 | Real-time monitoring for safety<br>
+        <small>Note: This system uses your camera. Processing happens on server.</small>
+    </footer>
+</div>
+
+<script>
+    const els = {
+        video: document.getElementById('video'),
+        status: document.getElementById('detectionStatus'),
+        face: document.getElementById('faceCount'),
+        ear: document.getElementById('ear'),
+        mar: document.getElementById('mar'),
+        perclos: document.getElementById('perclos'),
+        blink: document.getElementById('blink'),
+        time: document.getElementById('time'),
+        events: document.getElementById('events'),
+        alert: document.getElementById('alert'),
+        statusBox: document.getElementById('statusBox'),
+        logs: document.getElementById('logs'),
+        startBtn: document.getElementById('startBtn'),
+        stopBtn: document.getElementById('stopBtn'),
+        resetBtn: document.getElementById('resetBtn')
+    };
+
+    function updateUI(data) {
+        els.ear.textContent     = data.ear.toFixed(2);
+        els.mar.textContent     = data.mar.toFixed(2);
+        els.perclos.textContent = data.perclos + "%";
+        els.blink.textContent   = data.blink_rate.toFixed(1) + "/s";
+        els.time.textContent    = data.detection_time;
+        els.events.textContent  = data.drowsy_events;
+        els.alert.textContent   = data.alert_level;
+
+        els.face.textContent = data.face_detected ? "Faces: 1" : "Faces: 0";
+
+        let st = data.status.includes("ALERT") ? "DROWSY ALERT!" : data.status;
+        els.status.textContent = data.detection_active ? "Detection: ON" : "Detection: OFF";
+        els.statusBox.textContent = st;
+        els.statusBox.className = "status-box status-" + (st.includes("ALERT") ? "drowsy" : "awake");
+
+        // Logs
+        els.logs.innerHTML = "";
+        data.logs.slice(0,10).forEach(log => {
+            const div = document.createElement('div');
+            div.className = "log" + (log.includes("Drowsiness") ? " log-alert" : "");
+            div.textContent = log;
+            els.logs.appendChild(div);
+        });
+    }
+
+    function fetchState() {
+        fetch('/api/state')
+            .then(r => r.json())
+            .then(data => updateUI(data))
+            .catch(() => console.log("State fetch error"));
+    }
+
+    // Controls
+    els.startBtn.onclick = () => {
+        fetch('/api/start', {method:'POST'}).then(() => {
+            els.startBtn.disabled = true;
+            els.stopBtn.disabled = false;
+        });
+    };
+
+    els.stopBtn.onclick = () => {
+        fetch('/api/stop', {method:'POST'}).then(() => {
+            els.startBtn.disabled = false;
+            els.stopBtn.disabled = true;
+        });
+    };
+
+    els.resetBtn.onclick = () => {
+        fetch('/api/reset', {method:'POST'}).then(fetchState);
+    };
+
+    // Poll state every 700 ms
+    setInterval(fetchState, 700);
+    fetchState(); // initial
+</script>
+</body>
+</html>

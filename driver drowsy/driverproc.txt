@@ -1,0 +1,826 @@
+
+(base) C:\Users\Admin>conda create -n drawsiness python=3.11.11
+3 channel Terms of Service accepted
+Retrieving notices: done
+Channels:
+ - defaults
+Platform: win-64
+Collecting package metadata (repodata.json): done
+Solving environment: done
+
+
+==> WARNING: A newer version of conda exists. <==
+    current version: 26.1.1
+    latest version: 26.3.2
+
+Please update conda by running
+
+    $ conda update -n base -c defaults conda
+
+
+
+## Package Plan ##
+
+  environment location: C:\Users\Admin\anaconda3\envs\drawsiness
+
+  added / updated specs:
+    - python=3.11.11
+
+
+The following packages will be downloaded:
+
+    package                    |            build
+    ---------------------------|-----------------
+    bzip2-1.0.8                |       h2bbff1b_6          90 KB
+    libffi-3.4.8               |       h2b21627_2         118 KB
+    libzlib-1.3.1              |       h1c6eee0_1          62 KB
+    packaging-26.0             |  py311haa95532_0         197 KB
+    pip-26.0.1                 |     pyhc872135_1         1.1 MB
+    python-3.11.11             |       h4607a30_0        18.7 MB
+    setuptools-82.0.1          |  py311haa95532_0         1.6 MB
+    sqlite-3.51.2              |       hee5a0db_0         917 KB
+    tk-8.6.15                  |       hf199647_0         3.5 MB
+    tzdata-2026a               |       he532380_0         117 KB
+    ucrt-10.0.22621.0          |       haa95532_0         620 KB
+    vc-14.3                    |      h2df5915_10          19 KB
+    vc14_runtime-14.44.35208   |      h4927774_10         825 KB
+    vs2015_runtime-14.44.35208 |      ha6b5a95_10          19 KB
+    wheel-0.46.3               |  py311haa95532_0          95 KB
+    xz-5.8.2                   |       h53af0af_0         265 KB
+    zlib-1.3.1                 |       h1c6eee0_1         104 KB
+    ------------------------------------------------------------
+                                           Total:        28.3 MB
+
+The following NEW packages will be INSTALLED:
+
+  bzip2              pkgs/main/win-64::bzip2-1.0.8-h2bbff1b_6
+  ca-certificates    pkgs/main/win-64::ca-certificates-2026.3.19-haa95532_0
+  libffi             pkgs/main/win-64::libffi-3.4.8-h2b21627_2
+  libzlib            pkgs/main/win-64::libzlib-1.3.1-h1c6eee0_1
+  openssl            pkgs/main/win-64::openssl-3.5.6-hbb43b14_0
+  packaging          pkgs/main/win-64::packaging-26.0-py311haa95532_0
+  pip                pkgs/main/noarch::pip-26.0.1-pyhc872135_1
+  python             pkgs/main/win-64::python-3.11.11-h4607a30_0
+  setuptools         pkgs/main/win-64::setuptools-82.0.1-py311haa95532_0
+  sqlite             pkgs/main/win-64::sqlite-3.51.2-hee5a0db_0
+  tk                 pkgs/main/win-64::tk-8.6.15-hf199647_0
+  tzdata             pkgs/main/noarch::tzdata-2026a-he532380_0
+  ucrt               pkgs/main/win-64::ucrt-10.0.22621.0-haa95532_0
+  vc                 pkgs/main/win-64::vc-14.3-h2df5915_10
+  vc14_runtime       pkgs/main/win-64::vc14_runtime-14.44.35208-h4927774_10
+  vs2015_runtime     pkgs/main/win-64::vs2015_runtime-14.44.35208-ha6b5a95_10
+  wheel              pkgs/main/win-64::wheel-0.46.3-py311haa95532_0
+  xz                 pkgs/main/win-64::xz-5.8.2-h53af0af_0
+  zlib               pkgs/main/win-64::zlib-1.3.1-h1c6eee0_1
+
+
+Proceed ([y]/n)? y
+
+
+Downloading and Extracting Packages:
+
+Preparing transaction: done
+Verifying transaction: done
+Executing transaction: done
+#
+# To activate this environment, use
+#
+#     $ conda activate drawsiness
+#
+# To deactivate an active environment, use
+#
+#     $ conda deactivate
+
+
+(base) C:\Users\Admin>pip install Flask==3.1.1pip install opencv-python==4.12.0.88pip install mediapipe==0.10.14
+ERROR: Invalid requirement: 'Flask==3.1.1pip': Expected end or semicolon (after version specifier)
+    Flask==3.1.1pip
+         ~~~~~~~^
+
+(base) C:\Users\Admin>pip install Flask==3.1.1
+Collecting Flask==3.1.1
+  Downloading flask-3.1.1-py3-none-any.whl.metadata (3.0 kB)
+Requirement already satisfied: blinker>=1.9.0 in c:\users\admin\anaconda3\lib\site-packages (from Flask==3.1.1) (1.9.0)
+Requirement already satisfied: click>=8.1.3 in c:\users\admin\anaconda3\lib\site-packages (from Flask==3.1.1) (8.2.1)
+Requirement already satisfied: itsdangerous>=2.2.0 in c:\users\admin\anaconda3\lib\site-packages (from Flask==3.1.1) (2.2.0)
+Requirement already satisfied: jinja2>=3.1.2 in c:\users\admin\anaconda3\lib\site-packages (from Flask==3.1.1) (3.1.6)
+Requirement already satisfied: markupsafe>=2.1.1 in c:\users\admin\anaconda3\lib\site-packages (from Flask==3.1.1) (3.0.2)
+Requirement already satisfied: werkzeug>=3.1.0 in c:\users\admin\anaconda3\lib\site-packages (from Flask==3.1.1) (3.1.3)
+Requirement already satisfied: colorama in c:\users\admin\anaconda3\lib\site-packages (from click>=8.1.3->Flask==3.1.1) (0.4.6)
+Downloading flask-3.1.1-py3-none-any.whl (103 kB)
+Installing collected packages: Flask
+  Attempting uninstall: Flask
+    Found existing installation: Flask 3.1.2
+    Uninstalling Flask-3.1.2:
+      Successfully uninstalled Flask-3.1.2
+Successfully installed Flask-3.1.1
+
+(base) C:\Users\Admin>pip install opencv-python==4.12.0.88
+Collecting opencv-python==4.12.0.88
+  Downloading opencv_python-4.12.0.88-cp37-abi3-win_amd64.whl.metadata (19 kB)
+Collecting numpy<2.3.0,>=2 (from opencv-python==4.12.0.88)
+  Downloading numpy-2.2.6-cp313-cp313-win_amd64.whl.metadata (60 kB)
+Downloading opencv_python-4.12.0.88-cp37-abi3-win_amd64.whl (39.0 MB)
+   ---------------------------------------- 39.0/39.0 MB 3.8 MB/s  0:00:10
+Downloading numpy-2.2.6-cp313-cp313-win_amd64.whl (12.6 MB)
+   ---------------------------------------- 12.6/12.6 MB 4.0 MB/s  0:00:03
+Installing collected packages: numpy, opencv-python
+  Attempting uninstall: numpy
+    Found existing installation: numpy 2.3.5
+    Uninstalling numpy-2.3.5:
+      Successfully uninstalled numpy-2.3.5
+Successfully installed numpy-2.2.6 opencv-python-4.12.0.88
+
+(base) C:\Users\Admin>pip install mediapipe==0.10.14
+ERROR: Could not find a version that satisfies the requirement mediapipe==0.10.14 (from versions: 0.10.30, 0.10.31, 0.10.32, 0.10.33, 0.10.35)
+ERROR: No matching distribution found for mediapipe==0.10.14
+
+(base) C:\Users\Admin>pip install mediapipe==0.10.14
+ERROR: Could not find a version that satisfies the requirement mediapipe==0.10.14 (from versions: 0.10.30, 0.10.31, 0.10.32, 0.10.33, 0.10.35)
+ERROR: No matching distribution found for mediapipe==0.10.14
+
+(base) C:\Users\Admin>pip install opencv-python==4.12.0.14
+ERROR: Ignored the following yanked versions: 3.4.11.39, 3.4.17.61, 4.4.0.42, 4.4.0.44, 4.5.4.58, 4.5.5.62, 4.7.0.68
+ERROR: Could not find a version that satisfies the requirement opencv-python==4.12.0.14 (from versions: 3.4.0.14, 3.4.10.37, 3.4.11.41, 3.4.11.43, 3.4.11.45, 3.4.13.47, 3.4.15.55, 3.4.16.57, 3.4.16.59, 3.4.17.63, 3.4.18.65, 4.3.0.38, 4.4.0.40, 4.4.0.46, 4.5.1.48, 4.5.3.56, 4.5.4.60, 4.5.5.64, 4.6.0.66, 4.7.0.72, 4.8.0.74, 4.8.0.76, 4.8.1.78, 4.9.0.80, 4.10.0.82, 4.10.0.84, 4.11.0.86, 4.12.0.88, 4.13.0.90, 4.13.0.92)
+ERROR: No matching distribution found for opencv-python==4.12.0.14
+
+(base) C:\Users\Admin>conda create -n py310
+3 channel Terms of Service accepted
+Channels:
+ - defaults
+Platform: win-64
+Collecting package metadata (repodata.json): done
+Solving environment: done
+
+
+==> WARNING: A newer version of conda exists. <==
+    current version: 26.1.1
+    latest version: 26.3.2
+
+Please update conda by running
+
+    $ conda update -n base -c defaults conda
+
+
+
+## Package Plan ##
+
+  environment location: C:\Users\Admin\anaconda3\envs\py310
+
+
+
+Proceed ([y]/n)? y
+
+
+Downloading and Extracting Packages:
+
+Preparing transaction: done
+Verifying transaction: done
+Executing transaction: done
+#
+# To activate this environment, use
+#
+#     $ conda activate py310
+#
+# To deactivate an active environment, use
+#
+#     $ conda deactivate
+
+
+(base) C:\Users\Admin>pip install python==3.10.19
+ERROR: Could not find a version that satisfies the requirement python==3.10.19 (from versions: none)
+ERROR: No matching distribution found for python==3.10.19
+
+(base) C:\Users\Admin>conda create -n py310
+3 channel Terms of Service accepted
+WARNING: A conda environment already exists at 'C:\Users\Admin\anaconda3\envs\py310'
+
+Remove existing environment?
+This will remove ALL directories contained within this specified prefix directory, including any other conda environments.
+
+ (y/[n])? y
+
+Channels:
+ - defaults
+Platform: win-64
+Collecting package metadata (repodata.json): done
+Solving environment: done
+
+
+==> WARNING: A newer version of conda exists. <==
+    current version: 26.1.1
+    latest version: 26.3.2
+
+Please update conda by running
+
+    $ conda update -n base -c defaults conda
+
+
+
+## Package Plan ##
+
+  environment location: C:\Users\Admin\anaconda3\envs\py310
+
+
+
+Proceed ([y]/n)? y
+
+
+Downloading and Extracting Packages:
+
+Preparing transaction: done
+Verifying transaction: done
+Executing transaction: done
+#
+# To activate this environment, use
+#
+#     $ conda activate py310
+#
+# To deactivate an active environment, use
+#
+#     $ conda deactivate
+
+
+(base) C:\Users\Admin>pip install opencv-python==4.12.0.14
+ERROR: Ignored the following yanked versions: 3.4.11.39, 3.4.17.61, 4.4.0.42, 4.4.0.44, 4.5.4.58, 4.5.5.62, 4.7.0.68
+ERROR: Could not find a version that satisfies the requirement opencv-python==4.12.0.14 (from versions: 3.4.0.14, 3.4.10.37, 3.4.11.41, 3.4.11.43, 3.4.11.45, 3.4.13.47, 3.4.15.55, 3.4.16.57, 3.4.16.59, 3.4.17.63, 3.4.18.65, 4.3.0.38, 4.4.0.40, 4.4.0.46, 4.5.1.48, 4.5.3.56, 4.5.4.60, 4.5.5.64, 4.6.0.66, 4.7.0.72, 4.8.0.74, 4.8.0.76, 4.8.1.78, 4.9.0.80, 4.10.0.82, 4.10.0.84, 4.11.0.86, 4.12.0.88, 4.13.0.90, 4.13.0.92)
+ERROR: No matching distribution found for opencv-python==4.12.0.14
+
+(base) C:\Users\Admin>pip install mediapipe==0.10.14
+ERROR: Could not find a version that satisfies the requirement mediapipe==0.10.14 (from versions: 0.10.30, 0.10.31, 0.10.32, 0.10.33, 0.10.35)
+ERROR: No matching distribution found for mediapipe==0.10.14
+
+(base) C:\Users\Admin>conda create -n py310
+3 channel Terms of Service accepted
+WARNING: A conda environment already exists at 'C:\Users\Admin\anaconda3\envs\py310'
+
+Remove existing environment?
+This will remove ALL directories contained within this specified prefix directory, including any other conda environments.
+
+ (y/[n])? n
+
+
+CondaSystemExit: Exiting.
+
+
+(base) C:\Users\Admin>conda create -n py310
+3 channel Terms of Service accepted
+WARNING: A conda environment already exists at 'C:\Users\Admin\anaconda3\envs\py310'
+
+Remove existing environment?
+This will remove ALL directories contained within this specified prefix directory, including any other conda environments.
+
+ (y/[n])? y
+
+Channels:
+ - defaults
+Platform: win-64
+Collecting package metadata (repodata.json): done
+Solving environment: done
+
+
+==> WARNING: A newer version of conda exists. <==
+    current version: 26.1.1
+    latest version: 26.3.2
+
+Please update conda by running
+
+    $ conda update -n base -c defaults conda
+
+
+
+## Package Plan ##
+
+  environment location: C:\Users\Admin\anaconda3\envs\py310
+
+
+
+Proceed ([y]/n)? y
+
+
+Downloading and Extracting Packages:
+
+Preparing transaction: done
+Verifying transaction: done
+Executing transaction: done
+#
+# To activate this environment, use
+#
+#     $ conda activate py310
+#
+# To deactivate an active environment, use
+#
+#     $ conda deactivate
+
+
+(base) C:\Users\Admin>conda activate py310
+
+(py310) C:\Users\Admin>pip install mediapipe==0.10.14
+ERROR: Could not find a version that satisfies the requirement mediapipe==0.10.14 (from versions: 0.10.30, 0.10.31, 0.10.32, 0.10.33, 0.10.35)
+
+[notice] A new release of pip is available: 26.0.1 -> 26.1
+[notice] To update, run: C:\Users\Admin\AppData\Local\Python\pythoncore-3.14-64\python.exe -m pip install --upgrade pip
+ERROR: No matching distribution found for mediapipe==0.10.14
+
+(py310) C:\Users\Admin>pip install opencv-python==4.12.0.14
+ERROR: Ignored the following yanked versions: 3.4.11.39, 3.4.17.61, 4.4.0.42, 4.4.0.44, 4.5.4.58, 4.5.5.62, 4.7.0.68
+ERROR: Could not find a version that satisfies the requirement opencv-python==4.12.0.14 (from versions: 3.4.0.14, 3.4.10.37, 3.4.11.41, 3.4.11.43, 3.4.11.45, 3.4.13.47, 3.4.15.55, 3.4.16.57, 3.4.16.59, 3.4.17.63, 3.4.18.65, 4.3.0.38, 4.4.0.40, 4.4.0.46, 4.5.1.48, 4.5.3.56, 4.5.4.60, 4.5.5.64, 4.6.0.66, 4.7.0.72, 4.8.0.74, 4.8.0.76, 4.8.1.78, 4.9.0.80, 4.10.0.82, 4.10.0.84, 4.11.0.86, 4.12.0.88, 4.13.0.90, 4.13.0.92)
+
+[notice] A new release of pip is available: 26.0.1 -> 26.1
+[notice] To update, run: C:\Users\Admin\AppData\Local\Python\pythoncore-3.14-64\python.exe -m pip install --upgrade pip
+ERROR: No matching distribution found for opencv-python==4.12.0.14
+
+(py310) C:\Users\Admin>pip install opencv-python==4.12.0.88
+Collecting opencv-python==4.12.0.88
+  Using cached opencv_python-4.12.0.88-cp37-abi3-win_amd64.whl.metadata (19 kB)
+Collecting numpy<2.3.0,>=2 (from opencv-python==4.12.0.88)
+  Downloading numpy-2.2.6.tar.gz (20.3 MB)
+     ---------------------------------------- 20.3/20.3 MB 3.8 MB/s  0:00:05
+  Installing build dependencies ... done
+  Getting requirements to build wheel ... done
+  Installing backend dependencies ... done
+  Preparing metadata (pyproject.toml) ... error
+  error: subprocess-exited-with-error
+
+  × Preparing metadata (pyproject.toml) did not run successfully.
+  │ exit code: 1
+  ╰─> [21 lines of output]
+      + C:\Users\Admin\AppData\Local\Python\pythoncore-3.14-64\python.exe C:\Users\Admin\AppData\Local\Temp\pip-install-ec634j5p\numpy_fc180a25ff12488f9aba7326d061ab5f\vendored-meson\meson\meson.py setup C:\Users\Admin\AppData\Local\Temp\pip-install-ec634j5p\numpy_fc180a25ff12488f9aba7326d061ab5f C:\Users\Admin\AppData\Local\Temp\pip-install-ec634j5p\numpy_fc180a25ff12488f9aba7326d061ab5f\.mesonpy-5owc7uir -Dbuildtype=release -Db_ndebug=if-release -Db_vscrt=md --native-file=C:\Users\Admin\AppData\Local\Temp\pip-install-ec634j5p\numpy_fc180a25ff12488f9aba7326d061ab5f\.mesonpy-5owc7uir\meson-python-native-file.ini
+      The Meson build system
+      Version: 1.5.2
+      Source dir: C:\Users\Admin\AppData\Local\Temp\pip-install-ec634j5p\numpy_fc180a25ff12488f9aba7326d061ab5f
+      Build dir: C:\Users\Admin\AppData\Local\Temp\pip-install-ec634j5p\numpy_fc180a25ff12488f9aba7326d061ab5f\.mesonpy-5owc7uir
+      Build type: native build
+      Project name: NumPy
+      Project version: 2.2.6
+      WARNING: Failed to activate VS environment: Could not find C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere.exe
+
+      ..\meson.build:1:0: ERROR: Unknown compiler(s): [['icl'], ['cl'], ['cc'], ['gcc'], ['clang'], ['clang-cl'], ['pgcc']]
+      The following exception(s) were encountered:
+      Running `icl ""` gave "[WinError 2] The system cannot find the file specified"
+      Running `cl /?` gave "[WinError 2] The system cannot find the file specified"
+      Running `cc --version` gave "[WinError 2] The system cannot find the file specified"
+      Running `gcc --version` gave "[WinError 2] The system cannot find the file specified"
+      Running `clang --version` gave "[WinError 2] The system cannot find the file specified"
+      Running `clang-cl /?` gave "[WinError 2] The system cannot find the file specified"
+      Running `pgcc --version` gave "[WinError 2] The system cannot find the file specified"
+
+      A full log can be found at C:\Users\Admin\AppData\Local\Temp\pip-install-ec634j5p\numpy_fc180a25ff12488f9aba7326d061ab5f\.mesonpy-5owc7uir\meson-logs\meson-log.txt
+      [end of output]
+
+  note: This error originates from a subprocess, and is likely not a problem with pip.
+
+[notice] A new release of pip is available: 26.0.1 -> 26.1
+[notice] To update, run: C:\Users\Admin\AppData\Local\Python\pythoncore-3.14-64\python.exe -m pip install --upgrade pip
+error: metadata-generation-failed
+
+× Encountered error while generating package metadata.
+╰─> numpy
+
+note: This is an issue with the package mentioned above, not pip.
+hint: See above for details.
+
+(py310) C:\Users\Admin>pip install Flask==3.1.1
+Collecting Flask==3.1.1
+  Using cached flask-3.1.1-py3-none-any.whl.metadata (3.0 kB)
+Collecting blinker>=1.9.0 (from Flask==3.1.1)
+  Downloading blinker-1.9.0-py3-none-any.whl.metadata (1.6 kB)
+Collecting click>=8.1.3 (from Flask==3.1.1)
+  Downloading click-8.3.3-py3-none-any.whl.metadata (2.6 kB)
+Collecting itsdangerous>=2.2.0 (from Flask==3.1.1)
+  Downloading itsdangerous-2.2.0-py3-none-any.whl.metadata (1.9 kB)
+Collecting jinja2>=3.1.2 (from Flask==3.1.1)
+  Downloading jinja2-3.1.6-py3-none-any.whl.metadata (2.9 kB)
+Collecting markupsafe>=2.1.1 (from Flask==3.1.1)
+  Downloading markupsafe-3.0.3-cp314-cp314-win_amd64.whl.metadata (2.8 kB)
+Collecting werkzeug>=3.1.0 (from Flask==3.1.1)
+  Downloading werkzeug-3.1.8-py3-none-any.whl.metadata (4.0 kB)
+Collecting colorama (from click>=8.1.3->Flask==3.1.1)
+  Downloading colorama-0.4.6-py2.py3-none-any.whl.metadata (17 kB)
+Using cached flask-3.1.1-py3-none-any.whl (103 kB)
+Downloading blinker-1.9.0-py3-none-any.whl (8.5 kB)
+Downloading click-8.3.3-py3-none-any.whl (110 kB)
+Downloading itsdangerous-2.2.0-py3-none-any.whl (16 kB)
+Downloading jinja2-3.1.6-py3-none-any.whl (134 kB)
+Downloading markupsafe-3.0.3-cp314-cp314-win_amd64.whl (15 kB)
+Downloading werkzeug-3.1.8-py3-none-any.whl (226 kB)
+Downloading colorama-0.4.6-py2.py3-none-any.whl (25 kB)
+Installing collected packages: markupsafe, itsdangerous, colorama, blinker, werkzeug, jinja2, click, Flask
+   ------------------------------ --------- 6/8 [click]  WARNING: The script flask.exe is installed in 'C:\Users\Admin\AppData\Local\Python\pythoncore-3.14-64\Scripts' which is not on PATH.
+  Consider adding this directory to PATH or, if you prefer to suppress this warning, use --no-warn-script-location.
+Successfully installed Flask-3.1.1 blinker-1.9.0 click-8.3.3 colorama-0.4.6 itsdangerous-2.2.0 jinja2-3.1.6 markupsafe-3.0.3 werkzeug-3.1.8
+
+[notice] A new release of pip is available: 26.0.1 -> 26.1
+[notice] To update, run: C:\Users\Admin\AppData\Local\Python\pythoncore-3.14-64\python.exe -m pip install --upgrade pip
+
+(py310) C:\Users\Admin>pip install opencv-python==4.12.0.88
+Collecting opencv-python==4.12.0.88
+  Using cached opencv_python-4.12.0.88-cp37-abi3-win_amd64.whl.metadata (19 kB)
+Collecting numpy<2.3.0,>=2 (from opencv-python==4.12.0.88)
+  Using cached numpy-2.2.6.tar.gz (20.3 MB)
+  Installing build dependencies ... done
+  Getting requirements to build wheel ... done
+  Installing backend dependencies ... done
+  Preparing metadata (pyproject.toml) ... error
+  error: subprocess-exited-with-error
+
+  × Preparing metadata (pyproject.toml) did not run successfully.
+  │ exit code: 1
+  ╰─> [21 lines of output]
+      + C:\Users\Admin\AppData\Local\Python\pythoncore-3.14-64\python.exe C:\Users\Admin\AppData\Local\Temp\pip-install-p2ydwdz3\numpy_45e15533516b437eb64979028c039f9c\vendored-meson\meson\meson.py setup C:\Users\Admin\AppData\Local\Temp\pip-install-p2ydwdz3\numpy_45e15533516b437eb64979028c039f9c C:\Users\Admin\AppData\Local\Temp\pip-install-p2ydwdz3\numpy_45e15533516b437eb64979028c039f9c\.mesonpy-vqh8in_4 -Dbuildtype=release -Db_ndebug=if-release -Db_vscrt=md --native-file=C:\Users\Admin\AppData\Local\Temp\pip-install-p2ydwdz3\numpy_45e15533516b437eb64979028c039f9c\.mesonpy-vqh8in_4\meson-python-native-file.ini
+      The Meson build system
+      Version: 1.5.2
+      Source dir: C:\Users\Admin\AppData\Local\Temp\pip-install-p2ydwdz3\numpy_45e15533516b437eb64979028c039f9c
+      Build dir: C:\Users\Admin\AppData\Local\Temp\pip-install-p2ydwdz3\numpy_45e15533516b437eb64979028c039f9c\.mesonpy-vqh8in_4
+      Build type: native build
+      Project name: NumPy
+      Project version: 2.2.6
+      WARNING: Failed to activate VS environment: Could not find C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere.exe
+
+      ..\meson.build:1:0: ERROR: Unknown compiler(s): [['icl'], ['cl'], ['cc'], ['gcc'], ['clang'], ['clang-cl'], ['pgcc']]
+      The following exception(s) were encountered:
+      Running `icl ""` gave "[WinError 2] The system cannot find the file specified"
+      Running `cl /?` gave "[WinError 2] The system cannot find the file specified"
+      Running `cc --version` gave "[WinError 2] The system cannot find the file specified"
+      Running `gcc --version` gave "[WinError 2] The system cannot find the file specified"
+      Running `clang --version` gave "[WinError 2] The system cannot find the file specified"
+      Running `clang-cl /?` gave "[WinError 2] The system cannot find the file specified"
+      Running `pgcc --version` gave "[WinError 2] The system cannot find the file specified"
+
+      A full log can be found at C:\Users\Admin\AppData\Local\Temp\pip-install-p2ydwdz3\numpy_45e15533516b437eb64979028c039f9c\.mesonpy-vqh8in_4\meson-logs\meson-log.txt
+      [end of output]
+
+  note: This error originates from a subprocess, and is likely not a problem with pip.
+
+[notice] A new release of pip is available: 26.0.1 -> 26.1
+[notice] To update, run: C:\Users\Admin\AppData\Local\Python\pythoncore-3.14-64\python.exe -m pip install --upgrade pip
+error: metadata-generation-failed
+
+× Encountered error while generating package metadata.
+╰─> numpy
+
+note: This is an issue with the package mentioned above, not pip.
+hint: See above for details.
+
+(py310) C:\Users\Admin>pip install opencv-python==4.12.0.14
+ERROR: Ignored the following yanked versions: 3.4.11.39, 3.4.17.61, 4.4.0.42, 4.4.0.44, 4.5.4.58, 4.5.5.62, 4.7.0.68
+ERROR: Could not find a version that satisfies the requirement opencv-python==4.12.0.14 (from versions: 3.4.0.14, 3.4.10.37, 3.4.11.41, 3.4.11.43, 3.4.11.45, 3.4.13.47, 3.4.15.55, 3.4.16.57, 3.4.16.59, 3.4.17.63, 3.4.18.65, 4.3.0.38, 4.4.0.40, 4.4.0.46, 4.5.1.48, 4.5.3.56, 4.5.4.60, 4.5.5.64, 4.6.0.66, 4.7.0.72, 4.8.0.74, 4.8.0.76, 4.8.1.78, 4.9.0.80, 4.10.0.82, 4.10.0.84, 4.11.0.86, 4.12.0.88, 4.13.0.90, 4.13.0.92)
+
+[notice] A new release of pip is available: 26.0.1 -> 26.1
+[notice] To update, run: C:\Users\Admin\AppData\Local\Python\pythoncore-3.14-64\python.exe -m pip install --upgrade pip
+ERROR: No matching distribution found for opencv-python==4.12.0.14
+
+(py310) C:\Users\Admin>python=3.10.19
+C:\Users\Admin\AppData\Local\Python\pythoncore-3.14-64\python.exe: can't open file 'C:\\Users\\Admin\\=3.10.19': [Errno 2] No such file or directory
+
+(py310) C:\Users\Admin>conda create -n py310 python=3.10.19
+3 channel Terms of Service accepted
+WARNING: A conda environment already exists at 'C:\Users\Admin\anaconda3\envs\py310'
+
+Remove existing environment?
+This will remove ALL directories contained within this specified prefix directory, including any other conda environments.
+
+ (y/[n])? y
+
+Channels:
+ - defaults
+Platform: win-64
+Collecting package metadata (repodata.json): done
+Solving environment: done
+
+
+==> WARNING: A newer version of conda exists. <==
+    current version: 26.1.1
+    latest version: 26.3.2
+
+Please update conda by running
+
+    $ conda update -n base -c defaults conda
+
+
+
+## Package Plan ##
+
+  environment location: C:\Users\Admin\anaconda3\envs\py310
+
+  added / updated specs:
+    - python=3.10.19
+
+
+The following packages will be downloaded:
+
+    package                    |            build
+    ---------------------------|-----------------
+    expat-2.8.0                |       hd7fb8db_0          31 KB
+    libexpat-2.8.0             |       hd7fb8db_0         122 KB
+    packaging-26.0             |  py310haa95532_0         166 KB
+    python-3.10.19             |       h981015d_0        15.3 MB
+    setuptools-82.0.1          |  py310haa95532_0         1.2 MB
+    wheel-0.46.3               |  py310haa95532_0          78 KB
+    ------------------------------------------------------------
+                                           Total:        16.9 MB
+
+The following NEW packages will be INSTALLED:
+
+  bzip2              pkgs/main/win-64::bzip2-1.0.8-h2bbff1b_6
+  ca-certificates    pkgs/main/win-64::ca-certificates-2026.3.19-haa95532_0
+  expat              pkgs/main/win-64::expat-2.8.0-hd7fb8db_0
+  libexpat           pkgs/main/win-64::libexpat-2.8.0-hd7fb8db_0
+  libffi             pkgs/main/win-64::libffi-3.4.8-h2b21627_2
+  libzlib            pkgs/main/win-64::libzlib-1.3.1-h1c6eee0_1
+  openssl            pkgs/main/win-64::openssl-3.5.6-hbb43b14_0
+  packaging          pkgs/main/win-64::packaging-26.0-py310haa95532_0
+  pip                pkgs/main/noarch::pip-26.0.1-pyhc872135_1
+  python             pkgs/main/win-64::python-3.10.19-h981015d_0
+  setuptools         pkgs/main/win-64::setuptools-82.0.1-py310haa95532_0
+  sqlite             pkgs/main/win-64::sqlite-3.51.2-hee5a0db_0
+  tk                 pkgs/main/win-64::tk-8.6.15-hf199647_0
+  tzdata             pkgs/main/noarch::tzdata-2026a-he532380_0
+  ucrt               pkgs/main/win-64::ucrt-10.0.22621.0-haa95532_0
+  vc                 pkgs/main/win-64::vc-14.3-h2df5915_10
+  vc14_runtime       pkgs/main/win-64::vc14_runtime-14.44.35208-h4927774_10
+  vs2015_runtime     pkgs/main/win-64::vs2015_runtime-14.44.35208-ha6b5a95_10
+  wheel              pkgs/main/win-64::wheel-0.46.3-py310haa95532_0
+  xz                 pkgs/main/win-64::xz-5.8.2-h53af0af_0
+  zlib               pkgs/main/win-64::zlib-1.3.1-h1c6eee0_1
+
+
+Proceed ([y]/n)? y
+
+
+Downloading and Extracting Packages:
+
+Preparing transaction: done
+Verifying transaction: done
+Executing transaction: done
+#
+# To activate this environment, use
+#
+#     $ conda activate py310
+#
+# To deactivate an active environment, use
+#
+#     $ conda deactivate
+
+
+(py310) C:\Users\Admin>conda activate py310
+
+(py310) C:\Users\Admin>pip install opencv-python==4.12.0.88
+Collecting opencv-python==4.12.0.88
+  Using cached opencv_python-4.12.0.88-cp37-abi3-win_amd64.whl.metadata (19 kB)
+Collecting numpy<2.3.0,>=2 (from opencv-python==4.12.0.88)
+  Downloading numpy-2.2.6-cp310-cp310-win_amd64.whl.metadata (60 kB)
+Using cached opencv_python-4.12.0.88-cp37-abi3-win_amd64.whl (39.0 MB)
+Downloading numpy-2.2.6-cp310-cp310-win_amd64.whl (12.9 MB)
+   ---------------------------------------- 12.9/12.9 MB 3.1 MB/s  0:00:04
+Installing collected packages: numpy, opencv-python
+Successfully installed numpy-2.2.6 opencv-python-4.12.0.88
+
+(py310) C:\Users\Admin>pip install mediapipe==0.10.14
+Collecting mediapipe==0.10.14
+  Downloading mediapipe-0.10.14-cp310-cp310-win_amd64.whl.metadata (9.9 kB)
+Collecting absl-py (from mediapipe==0.10.14)
+  Downloading absl_py-2.4.0-py3-none-any.whl.metadata (3.3 kB)
+Collecting attrs>=19.1.0 (from mediapipe==0.10.14)
+  Downloading attrs-26.1.0-py3-none-any.whl.metadata (8.8 kB)
+Collecting flatbuffers>=2.0 (from mediapipe==0.10.14)
+  Downloading flatbuffers-25.12.19-py2.py3-none-any.whl.metadata (1.0 kB)
+Collecting jax (from mediapipe==0.10.14)
+  Downloading jax-0.6.2-py3-none-any.whl.metadata (13 kB)
+Collecting jaxlib (from mediapipe==0.10.14)
+  Downloading jaxlib-0.6.2-cp310-cp310-win_amd64.whl.metadata (1.4 kB)
+Collecting matplotlib (from mediapipe==0.10.14)
+  Downloading matplotlib-3.10.9-cp310-cp310-win_amd64.whl.metadata (52 kB)
+Requirement already satisfied: numpy in .\anaconda3\envs\py310\lib\site-packages (from mediapipe==0.10.14) (2.2.6)
+Collecting opencv-contrib-python (from mediapipe==0.10.14)
+  Downloading opencv_contrib_python-4.13.0.92-cp37-abi3-win_amd64.whl.metadata (20 kB)
+Collecting protobuf<5,>=4.25.3 (from mediapipe==0.10.14)
+  Downloading protobuf-4.25.9-cp310-abi3-win_amd64.whl.metadata (541 bytes)
+Collecting sounddevice>=0.4.4 (from mediapipe==0.10.14)
+  Downloading sounddevice-0.5.5-py3-none-win_amd64.whl.metadata (1.4 kB)
+Collecting cffi (from sounddevice>=0.4.4->mediapipe==0.10.14)
+  Downloading cffi-2.0.0-cp310-cp310-win_amd64.whl.metadata (2.6 kB)
+Collecting pycparser (from cffi->sounddevice>=0.4.4->mediapipe==0.10.14)
+  Downloading pycparser-3.0-py3-none-any.whl.metadata (8.2 kB)
+Collecting ml_dtypes>=0.5.0 (from jax->mediapipe==0.10.14)
+  Downloading ml_dtypes-0.5.4-cp310-cp310-win_amd64.whl.metadata (9.2 kB)
+Collecting opt_einsum (from jax->mediapipe==0.10.14)
+  Downloading opt_einsum-3.4.0-py3-none-any.whl.metadata (6.3 kB)
+Collecting scipy>=1.12 (from jax->mediapipe==0.10.14)
+  Downloading scipy-1.15.3-cp310-cp310-win_amd64.whl.metadata (60 kB)
+Collecting contourpy>=1.0.1 (from matplotlib->mediapipe==0.10.14)
+  Downloading contourpy-1.3.2-cp310-cp310-win_amd64.whl.metadata (5.5 kB)
+Collecting cycler>=0.10 (from matplotlib->mediapipe==0.10.14)
+  Downloading cycler-0.12.1-py3-none-any.whl.metadata (3.8 kB)
+Collecting fonttools>=4.22.0 (from matplotlib->mediapipe==0.10.14)
+  Downloading fonttools-4.62.1-cp310-cp310-win_amd64.whl.metadata (119 kB)
+Collecting kiwisolver>=1.3.1 (from matplotlib->mediapipe==0.10.14)
+  Downloading kiwisolver-1.5.0-cp310-cp310-win_amd64.whl.metadata (5.2 kB)
+Requirement already satisfied: packaging>=20.0 in .\anaconda3\envs\py310\lib\site-packages (from matplotlib->mediapipe==0.10.14) (26.0)
+Collecting pillow>=8 (from matplotlib->mediapipe==0.10.14)
+  Downloading pillow-12.2.0-cp310-cp310-win_amd64.whl.metadata (9.0 kB)
+Collecting pyparsing>=3 (from matplotlib->mediapipe==0.10.14)
+  Downloading pyparsing-3.3.2-py3-none-any.whl.metadata (5.8 kB)
+Collecting python-dateutil>=2.7 (from matplotlib->mediapipe==0.10.14)
+  Downloading python_dateutil-2.9.0.post0-py2.py3-none-any.whl.metadata (8.4 kB)
+Collecting six>=1.5 (from python-dateutil>=2.7->matplotlib->mediapipe==0.10.14)
+  Downloading six-1.17.0-py2.py3-none-any.whl.metadata (1.7 kB)
+Downloading mediapipe-0.10.14-cp310-cp310-win_amd64.whl (50.8 MB)
+   ---------------------------------------- 50.8/50.8 MB 3.3 MB/s  0:00:15
+Downloading protobuf-4.25.9-cp310-abi3-win_amd64.whl (413 kB)
+Downloading attrs-26.1.0-py3-none-any.whl (67 kB)
+Downloading flatbuffers-25.12.19-py2.py3-none-any.whl (26 kB)
+Downloading sounddevice-0.5.5-py3-none-win_amd64.whl (365 kB)
+Downloading absl_py-2.4.0-py3-none-any.whl (135 kB)
+Downloading cffi-2.0.0-cp310-cp310-win_amd64.whl (182 kB)
+Downloading jax-0.6.2-py3-none-any.whl (2.7 MB)
+   ---------------------------------------- 2.7/2.7 MB 3.1 MB/s  0:00:00
+Downloading jaxlib-0.6.2-cp310-cp310-win_amd64.whl (57.9 MB)
+   ---------------------------------------- 57.9/57.9 MB 3.8 MB/s  0:00:15
+Downloading ml_dtypes-0.5.4-cp310-cp310-win_amd64.whl (210 kB)
+Downloading scipy-1.15.3-cp310-cp310-win_amd64.whl (41.3 MB)
+   ---------------------------------------- 41.3/41.3 MB 3.7 MB/s  0:00:11
+Downloading matplotlib-3.10.9-cp310-cp310-win_amd64.whl (8.2 MB)
+   ---------------------------------------- 8.2/8.2 MB 3.9 MB/s  0:00:02
+Downloading contourpy-1.3.2-cp310-cp310-win_amd64.whl (221 kB)
+Downloading cycler-0.12.1-py3-none-any.whl (8.3 kB)
+Downloading fonttools-4.62.1-cp310-cp310-win_amd64.whl (1.6 MB)
+   ---------------------------------------- 1.6/1.6 MB 4.4 MB/s  0:00:00
+Downloading kiwisolver-1.5.0-cp310-cp310-win_amd64.whl (73 kB)
+Downloading pillow-12.2.0-cp310-cp310-win_amd64.whl (7.1 MB)
+   ---------------------------------------- 7.1/7.1 MB 3.7 MB/s  0:00:01
+Downloading pyparsing-3.3.2-py3-none-any.whl (122 kB)
+Downloading python_dateutil-2.9.0.post0-py2.py3-none-any.whl (229 kB)
+Downloading six-1.17.0-py2.py3-none-any.whl (11 kB)
+Downloading opencv_contrib_python-4.13.0.92-cp37-abi3-win_amd64.whl (46.5 MB)
+   ---------------------------------------- 46.5/46.5 MB 3.7 MB/s  0:00:12
+Downloading opt_einsum-3.4.0-py3-none-any.whl (71 kB)
+Downloading pycparser-3.0-py3-none-any.whl (48 kB)
+Installing collected packages: flatbuffers, six, scipy, pyparsing, pycparser, protobuf, pillow, opt_einsum, opencv-contrib-python, ml_dtypes, kiwisolver, fonttools, cycler, contourpy, attrs, absl-py, python-dateutil, jaxlib, cffi, sounddevice, matplotlib, jax, mediapipe
+Successfully installed absl-py-2.4.0 attrs-26.1.0 cffi-2.0.0 contourpy-1.3.2 cycler-0.12.1 flatbuffers-25.12.19 fonttools-4.62.1 jax-0.6.2 jaxlib-0.6.2 kiwisolver-1.5.0 matplotlib-3.10.9 mediapipe-0.10.14 ml_dtypes-0.5.4 opencv-contrib-python-4.13.0.92 opt_einsum-3.4.0 pillow-12.2.0 protobuf-4.25.9 pycparser-3.0 pyparsing-3.3.2 python-dateutil-2.9.0.post0 scipy-1.15.3 six-1.17.0 sounddevice-0.5.5
+
+(py310) C:\Users\Admin>notepad driver.py
+
+(py310) C:\Users\Admin>cd cv_program1
+The system cannot find the path specified.
+
+(py310) C:\Users\Admin>mkdir cv_program1
+
+(py310) C:\Users\Admin>dir
+ Volume in drive C has no label.
+ Volume Serial Number is F261-0948
+
+ Directory of C:\Users\Admin
+
+05/04/2026  10:21 PM    <DIR>          .
+05/04/2026  10:21 PM    <DIR>          ..
+05/03/2026  04:11 PM    <DIR>          .anaconda
+05/01/2026  07:59 PM    <DIR>          .arduinoIDE
+05/04/2026  09:54 PM    <DIR>          .conda
+05/03/2026  04:18 PM    <DIR>          .continuum
+04/29/2026  10:39 AM               210 .gitconfig
+05/03/2026  04:51 PM    <DIR>          .ipynb_checkpoints
+05/03/2026  04:46 PM    <DIR>          .ipython
+05/03/2026  04:40 PM    <DIR>          .jupyter
+05/01/2026  09:58 AM    <DIR>          .ms-ad
+04/27/2026  08:14 PM    <DIR>          3D Objects
+05/03/2026  04:23 PM    <DIR>          anaconda3
+04/27/2026  08:14 PM    <DIR>          Contacts
+05/04/2026  10:21 PM    <DIR>          cv_program1
+05/04/2026  02:47 PM    <DIR>          Desktop
+05/04/2026  09:52 PM    <DIR>          Documents
+05/04/2026  09:51 PM    <DIR>          Downloads
+05/04/2026  10:19 PM                 0 driver.py
+04/27/2026  08:14 PM    <DIR>          Favorites
+04/27/2026  08:14 PM    <DIR>          Links
+05/01/2026  05:20 PM    <DIR>          Microsoft
+04/27/2026  08:14 PM    <DIR>          Music
+05/01/2026  12:48 PM    <DIR>          OneDrive
+04/29/2026  05:29 PM    <DIR>          Pictures
+05/03/2026  05:00 PM    <DIR>          projects
+05/01/2026  01:36 PM    <DIR>          PyCharmMiscProject
+05/01/2026  02:22 PM       555,506,040 QHISE64.EXE
+04/27/2026  08:14 PM    <DIR>          Saved Games
+04/27/2026  08:15 PM    <DIR>          Searches
+05/01/2026  09:35 AM    <DIR>          Videos
+               3 File(s)    555,506,250 bytes
+              28 Dir(s)  59,205,386,240 bytes free
+
+(py310) C:\Users\Admin>mkdir cv_program1
+A subdirectory or file cv_program1 already exists.
+
+(py310) C:\Users\Admin>cd cv_program1
+
+(py310) C:\Users\Admin\cv_program1>notepad driver.py
+
+(py310) C:\Users\Admin\cv_program1>python driver.py
+Traceback (most recent call last):
+  File "C:\Users\Admin\cv_program1\driver.py", line 7, in <module>
+    ret, frame = cap.read()
+KeyboardInterrupt
+^C
+(py310) C:\Users\Admin\cv_program1>^Q^Qqq
+'◄◄qq' is not recognized as an internal or external command,
+operable program or batch file.
+
+(py310) C:\Users\Admin\cv_program1>
+(py310) C:\Users\Admin\cv_program1>`
+'`' is not recognized as an internal or external command,
+operable program or batch file.
+
+(py310) C:\Users\Admin\cv_program1>
+(py310) C:\Users\Admin\cv_program1>
+(py310) C:\Users\Admin\cv_program1>
+(py310) C:\Users\Admin\cv_program1>notepad driver.py
+
+(py310) C:\Users\Admin\cv_program1>python driver.py
+INFO: Created TensorFlow Lite XNNPACK delegate for CPU.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+W0000 00:00:1777914096.862996    7128 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1777914096.879548    7128 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+C:\Users\Admin\anaconda3\envs\py310\lib\site-packages\google\protobuf\symbol_database.py:55: UserWarning: SymbolDatabase.GetPrototype() is deprecated. Please use message_factory.GetMessageClass() instead. SymbolDatabase.GetPrototype() will be removed soon.
+  warnings.warn('SymbolDatabase.GetPrototype() is deprecated. Please '
+Traceback (most recent call last):
+  File "C:\Users\Admin\cv_program1\driver.py", line 43, in <module>
+    ret, frame = cap.read()
+KeyboardInterrupt
+^C
+(py310) C:\Users\Admin\cv_program1>notepad driver1.py
+
+(py310) C:\Users\Admin\cv_program1>python driver1.py
+INFO: Created TensorFlow Lite XNNPACK delegate for CPU.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+W0000 00:00:1777914418.802608    7480 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1777914418.822129   20780 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+Press ESC to exit
+C:\Users\Admin\anaconda3\envs\py310\lib\site-packages\google\protobuf\symbol_database.py:55: UserWarning: SymbolDatabase.GetPrototype() is deprecated. Please use message_factory.GetMessageClass() instead. SymbolDatabase.GetPrototype() will be removed soon.
+  warnings.warn('SymbolDatabase.GetPrototype() is deprecated. Please '
+Traceback (most recent call last):
+  File "C:\Users\Admin\cv_program1\driver1.py", line 34, in <module>
+    ret, frame = cap.read()
+KeyboardInterrupt
+^C
+(py310) C:\Users\Admin\cv_program1>notepad driver1.py
+
+(py310) C:\Users\Admin\cv_program1>python driver.py
+INFO: Created TensorFlow Lite XNNPACK delegate for CPU.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+W0000 00:00:1777914610.808884    1020 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1777914610.825573    7012 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+C:\Users\Admin\anaconda3\envs\py310\lib\site-packages\google\protobuf\symbol_database.py:55: UserWarning: SymbolDatabase.GetPrototype() is deprecated. Please use message_factory.GetMessageClass() instead. SymbolDatabase.GetPrototype() will be removed soon.
+  warnings.warn('SymbolDatabase.GetPrototype() is deprecated. Please '
+Traceback (most recent call last):
+  File "C:\Users\Admin\cv_program1\driver.py", line 43, in <module>
+    ret, frame = cap.read()
+KeyboardInterrupt
+^C
+(py310) C:\Users\Admin\cv_program1>notepad driver.html
+
+(py310) C:\Users\Admin\cv_program1>mkdir cv_program
+
+(py310) C:\Users\Admin\cv_program1>dir
+ Volume in drive C has no label.
+ Volume Serial Number is F261-0948
+
+ Directory of C:\Users\Admin\cv_program1
+
+05/04/2026  10:47 PM    <DIR>          .
+05/04/2026  10:47 PM    <DIR>          ..
+05/04/2026  10:47 PM    <DIR>          cv_program
+05/04/2026  10:43 PM            44,763 driver.html
+05/04/2026  10:31 PM             5,220 driver.py
+05/04/2026  10:40 PM             3,560 driver1.py
+               3 File(s)         53,543 bytes
+               3 Dir(s)  58,880,991,232 bytes free
+
+(py310) C:\Users\Admin\cv_program1>cd cv_program
+
+(py310) C:\Users\Admin\cv_program1\cv_program>notepad drive.py
+
+(py310) C:\Users\Admin\cv_program1\cv_program>python drive.py
+INFO: Created TensorFlow Lite XNNPACK delegate for CPU.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+W0000 00:00:1777915628.256278   18588 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1777915628.273817   16136 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+C:\Users\Admin\anaconda3\envs\py310\lib\site-packages\google\protobuf\symbol_database.py:55: UserWarning: SymbolDatabase.GetPrototype() is deprecated. Please use message_factory.GetMessageClass() instead. SymbolDatabase.GetPrototype() will be removed soon.
+  warnings.warn('SymbolDatabase.GetPrototype() is deprecated. Please '
+Traceback (most recent call last):
+  File "C:\Users\Admin\cv_program1\cv_program\drive.py", line 47, in <module>
+    frame = cv2.flip(frame, 1)
+KeyboardInterrupt
+^C
+(py310) C:\Users\Admin\cv_program1\cv_program>notepad ex73.py
+
+(py310) C:\Users\Admin\cv_program1\cv_program>python ex73.py
+INFO: Created TensorFlow Lite XNNPACK delegate for CPU.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+W0000 00:00:1777915750.753255   16584 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1777915750.769911   18740 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+C:\Users\Admin\anaconda3\envs\py310\lib\site-packages\google\protobuf\symbol_database.py:55: UserWarning: SymbolDatabase.GetPrototype() is deprecated. Please use message_factory.GetMessageClass() instead. SymbolDatabase.GetPrototype() will be removed soon.
+  warnings.warn('SymbolDatabase.GetPrototype() is deprecated. Please '
+Traceback (most recent call last):
+  File "C:\Users\Admin\cv_program1\cv_program\ex73.py", line 43, in <module>
+    ret, frame = cap.read()
+KeyboardInterrupt
+^C
+(py310) C:\Users\Admin\cv_program1\cv_program>
