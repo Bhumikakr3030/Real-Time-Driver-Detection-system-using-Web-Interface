@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Driver Drowsiness Detection · MediaPipe</title>
+    <!-- Font Awesome (optional, for icons) & Inter font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz@14..32&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* light theme – exactly matching shadcn/ui style with white background */
+            --background: #ffffff;
+            --foreground: #1e293b;
+            --card: #ffffff;
+            --card-foreground: #1e293b;
+            --primary: #8b5cf6;        /* purple-600 */
+            --primary-foreground: #ffffff;
+            --secondary: #f1f5f9;
+            --secondary-foreground: #1e293b;
+            --muted: #f8fafc;
+            --muted-foreground: #64748b;
+            --accent: #f1f5f9;
+            --accent-foreground: #1e293b;
+            --destructive: #ef4444;
+            --destructive-foreground: #ffffff;
+            --border: #e2e8f0;
+            --input: #e2e8f0;
+            --ring: #8b5cf6;
+            --radius: 0.75rem;
+            --stop: #94a3b8;            /* grey stop button */
+            --stop-foreground: #ffffff;
+            --metric-bg: #f8fafc;
+            --status-safe: #22c55e;
+            --status-warning: #f59e0b;
+            --status-danger: #ef4444;
+        }
+
+        body {
+            background: var(--background);
+            color: var(--foreground);
+            font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            margin: 0;
+        }
+
+        /* main container – replaces React root */
+        #root {
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        /* card style */
+        .card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05), 0 8px 10px -6px rgba(0,0,0,0.02);
+        }
+
+        /* header */
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 1.5rem;
+            background: var(--background);
+            border-radius: var(--radius) var(--radius) 0 0;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .logo-icon {
+            color: var(--primary);
+            font-size: 1.75rem;
+        }
+
+        .app-title {
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: var(--foreground);
+        }
+
+        .btn-stop {
+            background: var(--stop);
+            color: var(--stop-foreground);
+            border: none;
+            padding: 0.5rem 1.5rem;
+            border-radius: 9999px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: 0.2s;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+            border: 1px solid transparent;
+        }
+
+        .btn-stop:hover {
+            background: #8395a8; /* darker grey */
+        }
+
+        .btn-stop:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* main */
+        main {
+            max-width: 72rem;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: 800;
+            letter-spacing: -0.025em;
+            text-align: center;
+            margin-bottom: 2.5rem;
+            color: var(--foreground);
+        }
+
+        /* camera container */
+        .camera-wrapper {
+            position: relative;
+            max-width: 42rem;
+            margin: 0 auto 2.5rem auto;
+            aspect-ratio: 16 / 9;
+            background: var(--muted);
+            border-radius: var(--radius);
+            border: 2px solid var(--border);
+            overflow: hidden;
+            box-shadow: 0 20px 30px -15px rgba(0,0,0,0.1);
+        }
+
+        #video-feed {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transform: scaleX(-1);  /* mirror effect */
+            display: block;
+        }
+
+        .camera-placeholder {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            color: var(--muted-foreground);
+            background: var(--muted);
+        }
+
+        .placeholder-icon {
+            font-size: 4rem;
+            opacity: 0.4;
+        }
+
+        .live-badge {
+            position: absolute;
+            left: 0.75rem;
+            top: 0.75rem;
+            background: var(--status-safe);
+            color: white;
+            padding: 0.25rem 0.9rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            box-shadow: 0 2px 8px rgba(34,197,94,0.3);
+            z-index: 10;
+        }
+
+        .live-dot {
+            width: 0.5rem;
+            height: 0.5rem;
+            background: white;
+            border-radius: 50%;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
+
+        /* metrics grid */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.2rem;
+            margin-bottom: 2rem;
+        }
+
+        .metric-card {
+            background: var(--metric-bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1.2rem 0.5rem;
+            text-align: center;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+        }
+
+        .metric-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.4rem;
+            color: var(--muted-foreground);
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.8rem;
+        }
+
+        .metric-header i {
+            font-size: 1rem;
+            color: var(--primary);
+        }
+
+        .metric-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--foreground);
+            line-height: 1.2;
+        }
+
+        .metric-unit {
+            font-size: 0.8rem;
+            color: var(--muted-foreground);
+            margin-left: 0.2rem;
+        }
+
+        /* driver status specific */
+        .driver-status-card {
+            background: var(--metric-bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1rem 0.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1.4rem;
+            border-radius: 9999px;
+            font-weight: 700;
+            font-size: 1.25rem;
+            background: var(--status-safe);
+            color: white;
+            margin-top: 0.25rem;
+        }
+
+        .status-badge.inactive {
+            background: var(--muted-foreground);
+        }
+
+        .status-badge.drowsy {
+            background: var(--status-warning);
+        }
+
+        .status-badge.sleeping {
+            background: var(--status-danger);
+        }
+
+        .start-btn-wrapper {
+            display: flex;
+            justify-content: center;
+            margin-top: 1.5rem;
+        }
+
+        .btn-start {
+            background: var(--primary);
+            color: var(--primary-foreground);
+            border: none;
+            padding: 0.85rem 3rem;
+            border-radius: 9999px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: 0.15s;
+            box-shadow: 0 12px 24px -12px var(--primary);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .btn-start:hover {
+            background: #7c4ae0;
+            transform: scale(1.02);
+        }
+
+        /* responsiveness */
+        @media (max-width: 700px) {
+            .metrics-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            h1 {
+                font-size: 1.6rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="root">
+        <!-- header (exactly as React component) -->
+        <div class="header card" style="border-radius: var(--radius) var(--radius) 0 0; margin-bottom:0;">
+            <div class="logo-area">
+                <i class="fas fa-shield-alt logo-icon"></i>
+                <span class="app-title">Driver Drowsiness Detection</span>
+            </div>
+            <button class="btn-stop" id="stopBtn" disabled>Stop</button>
+        </div>
+
+        <main>
+            <h1>Mediapipe as a Driver Drowsiness Detection System</h1>
+
+            <!-- camera section -->
+            <div class="camera-wrapper">
+                <video id="video-feed" autoplay playsinline muted></video>
+                <!-- placeholder overlay (hidden when monitoring) -->
+                <div id="cameraPlaceholder" class="camera-placeholder">
+                    <i class="fas fa-eye placeholder-icon"></i>
+                    <p style="color: var(--muted-foreground);">Camera feed will appear here</p>
+                </div>
+                <!-- live badge (hidden by default) -->
+                <div id="liveBadge" class="live-badge" style="display: none;">
+                    <span class="live-dot"></span>
+                    LIVE
+                </div>
+            </div>
+
+            <!-- metrics grid (4 cards) -->
+            <div class="metrics-grid">
+                <!-- Eye Aspect Ratio -->
+                <div class="metric-card">
+                    <div class="metric-header">
+                        <i class="fas fa-eye"></i> <span>Eye Aspect Ratio</span>
+                    </div>
+                    <div class="metric-value" id="earValue">0.00</div>
+                </div>
+                <!-- Mouth Aspect Ratio -->
+                <div class="metric-card">
+                    <div class="metric-header">
+                        <i class="fas fa-microphone"></i> <span>Mouth Aspect Ratio</span>
+                    </div>
+                    <div class="metric-value" id="marValue">0.00</div>
+                </div>
+                <!-- Blink Count -->
+                <div class="metric-card">
+                    <div class="metric-header">
+                        <i class="fas fa-activity"></i> <span>Blink Count</span>
+                    </div>
+                    <div class="metric-value" id="blinkValue">0</div>
+                </div>
+                <!-- Driver Status (custom card) -->
+                <div class="driver-status-card">
+                    <div class="metric-header" style="margin-bottom: 0.4rem;">
+                        <i class="fas fa-car"></i> <span>Driver Status</span>
+                    </div>
+                    <div id="statusBadge" class="status-badge inactive">Inactive</div>
+                </div>
+            </div>
+
+            <!-- start button (hidden when monitoring) -->
+            <div id="startButtonWrapper" class="start-btn-wrapper">
+                <button class="btn-start" id="startBtn">Start Monitoring</button>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        (function() {
+            // DOM elements
+            const video = document.getElementById('video-feed');
+            const startBtn = document.getElementById('startBtn');
+            const stopBtn = document.getElementById('stopBtn');
+            const placeholder = document.getElementById('cameraPlaceholder');
+            const liveBadge = document.getElementById('liveBadge');
+            const earSpan = document.getElementById('earValue');
+            const marSpan = document.getElementById('marValue');
+            const blinkSpan = document.getElementById('blinkValue');
+            const statusBadge = document.getElementById('statusBadge');
+            const startWrapper = document.getElementById('startButtonWrapper');
+
+            // state
+            let monitoring = false;
+            let stream = null;
+            let metrics = { ear: 0.0, mar: 0.0, blinks: 0 };
+            let status = 'Inactive';  // "Active", "Drowsy", "Sleeping", "Inactive"
+            let simulationInterval = null;
+
+            // utility to update UI
+            function refreshUI() {
+                earSpan.innerText = metrics.ear.toFixed(2);
+                marSpan.innerText = metrics.mar.toFixed(2);
+                blinkSpan.innerText = metrics.blinks;
+
+                // update badge style & text
+                statusBadge.innerText = status;
+                statusBadge.classList.remove('inactive', 'drowsy', 'sleeping');
+                if (status === 'Active') {
+                    statusBadge.classList.add('active'); // active uses default green
+                    statusBadge.style.background = 'var(--status-safe)';
+                } else if (status === 'Drowsy') {
+                    statusBadge.classList.add('drowsy');
+                    statusBadge.style.background = 'var(--status-warning)';
+                } else if (status === 'Sleeping') {
+                    statusBadge.classList.add('sleeping');
+                    statusBadge.style.background = 'var(--status-danger)';
+                } else {
+                    statusBadge.classList.add('inactive');
+                    statusBadge.style.background = 'var(--muted-foreground)';
+                }
+            }
+
+            // simulate metric changes (exactly as React useEffect)
+            function startSimulation() {
+                if (simulationInterval) clearInterval(simulationInterval);
+                simulationInterval = setInterval(() => {
+                    if (!monitoring) return;
+
+                    // random ear between 0.2 and 0.35
+                    const ear = +(0.2 + Math.random() * 0.15).toFixed(2);
+                    const mar = +(0.1 + Math.random() * 0.2).toFixed(2);
+                    const blinkIncrement = Math.random() > 0.7 ? 1 : 0;
+                    const blinks = metrics.blinks + blinkIncrement;
+
+                    // update status based on ear (same logic as react)
+                    let newStatus = 'Active';
+                    if (ear < 0.22) newStatus = 'Sleeping';
+                    else if (ear < 0.25) newStatus = 'Drowsy';
+                    else newStatus = 'Active';
+
+                    metrics = { ear, mar, blinks };
+                    status = newStatus;
+                    refreshUI();
+                }, 1500);
+            }
+
+            // startMonitoring
+            async function startMonitoring() {
+                try {
+                    const mediaStream = await navigator.mediaDevices.getUserMedia({ video: true });
+                    video.srcObject = mediaStream;
+                    stream = mediaStream;
+                    monitoring = true;
+
+                    // hide placeholder, show live badge
+                    placeholder.style.display = 'none';
+                    liveBadge.style.display = 'flex';
+                    startWrapper.style.display = 'none';
+                    stopBtn.disabled = false;
+
+                    // initial metrics (like React: ear:0.32, mar:0.15, blinks:0)
+                    metrics = { ear: 0.32, mar: 0.15, blinks: 0 };
+                    status = 'Active';
+                    refreshUI();
+
+                    // start simulation
+                    startSimulation();
+
+                } catch (err) {
+                    alert('Camera access denied. Please allow camera permissions.');
+                }
+            }
+
+            // stopMonitoring
+            function stopMonitoring() {
+                if (stream) {
+                    stream.getTracks().forEach(t => t.stop());
+                    video.srcObject = null;
+                    stream = null;
+                }
+                monitoring = false;
+                if (simulationInterval) {
+                    clearInterval(simulationInterval);
+                    simulationInterval = null;
+                }
+
+                // show placeholder, hide live badge
+                placeholder.style.display = 'flex';
+                liveBadge.style.display = 'none';
+                startWrapper.style.display = 'flex';
+                stopBtn.disabled = true;
+
+                // reset metrics (exactly as React)
+                metrics = { ear: 0.0, mar: 0.0, blinks: 0 };
+                status = 'Inactive';
+                refreshUI();
+            }
+
+            // event listeners
+            startBtn.addEventListener('click', startMonitoring);
+            stopBtn.addEventListener('click', stopMonitoring);
+
+            // initial UI
+            refreshUI();
+            stopBtn.disabled = true;   // disabled initially
+            placeholder.style.display = 'flex';
+            liveBadge.style.display = 'none';
+            startWrapper.style.display = 'flex';
+        })();
+    </script>
+</body>
+</html>
