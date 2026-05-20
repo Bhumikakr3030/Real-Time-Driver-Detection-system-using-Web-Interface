@@ -142,29 +142,6 @@ python app.py
 ```text
 http://127.0.0.1:5000
 ```
-
----
-
-# 👁️ Eye Aspect Ratio (EAR)
-
-EAR is used to determine whether the driver's eyes are closed.
-
-EAR=\frac{|p_2-p_6|+|p_3-p_5|}{2|p_1-p_4|}
-
-If EAR falls below a threshold continuously, the system detects driver drowsiness.
-
----
-
-# 😮 Mouth Aspect Ratio (MAR)
-
-MAR helps detect yawning behavior.
-
-MAR=\frac{|p_3-p_9|+|p_4-p_8|+|p_5-p_7|}{2|p_1-p_{11}|}
-
-Higher MAR values indicate yawning.
-
----
-
 # 🔧 ESP32-CAM Arduino Code
 
 ```cpp
