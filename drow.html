@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>SafeEye Alert | Auto Buzzer - Driver Drowsiness Detection</title>
+    <!-- Google Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(145deg, #0a0f1c 0%, #0c1222 100%);
+            color: #eef2ff;
+            padding: 20px 24px;
+        }
+
+        .dashboard {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+        .title-section h1 {
+            font-size: 1.9rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ffffff, #60efff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .title-section p {
+            color: #8b92b0;
+            font-size: 0.8rem;
+            margin-top: 4px;
+        }
+        .header-badges {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .badge {
+            background: #1e293b;
+            padding: 8px 16px;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            border: 1px solid #334155;
+        }
+        .live-badge {
+            background: #dc2626;
+            animation: pulseRed 1.2s infinite;
+        }
+        @keyframes pulseRed {
+            0% { opacity: 0.7; background: #dc2626; }
+            100% { opacity: 1; background: #ef4444; }
+        }
+        .facemesh-toggle-btn {
+            background: #3b82f6;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 40px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .facemesh-toggle-btn.off {
+            background: #475569;
+        }
+        .buzzer-indicator {
+            background: #1e1b2e;
+            padding: 8px 16px;
+            border-radius: 40px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.8rem;
+        }
+        .buzzer-active {
+            animation: pulseOrange 0.5s infinite;
+            background: #ef4444;
+        }
+        @keyframes pulseOrange {
+            0%, 100% { background: #ef4444; box-shadow: 0 0 0 0 rgba(239,68,68,0.7); }
+            50% { background: #dc2626; box-shadow: 0 0 0 8px rgba(239,68,68,0); }
+        }
+
+        .grid-main {
+            display: grid;
+            grid-template-columns: 1fr 380px;
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+        @media (max-width: 900px) {
+            .grid-main { grid-template-columns: 1fr; }
+        }
+
+        .camera-card {
+            background: #0b0f17;
+            border-radius: 28px;
+            border: 1px solid #202532;
+            overflow: hidden;
+        }
+        .cam-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 20px;
+            background: #0d1220;
+            border-bottom: 1px solid #202532;
+        }
+        .video-container {
+            position: relative;
+            background: #000;
+            min-height: 460px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        #videoCanvas {
+            width: 100%;
+            display: block;
+            background: #010101;
+        }
+        .detection-overlay {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: rgba(0,0,0,0.7);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            backdrop-filter: blur(4px);
+            pointer-events: none;
+        }
+        .face-count-badge {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: rgba(0,0,0,0.7);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+        }
+        .buzzer-overlay {
+            position: absolute;
+            bottom: 12px;
+            left: 12px;
+            right: 12px;
+            background: rgba(0,0,0,0.85);
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-align: center;
+            transition: all 0.2s;
+        }
+
+        .right-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .card {
+            background: #0c1020;
+            border-radius: 24px;
+            border: 1px solid #202532;
+            padding: 20px;
+        }
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin: 16px 0;
+        }
+        .metric-tile {
+            background: #12172a;
+            border-radius: 16px;
+            padding: 12px;
+            text-align: center;
+            transition: all 0.2s;
+        }
+        .metric-tile.warning { border-left: 3px solid #f97316; background: #1e1a2a; }
+        .metric-tile.alert { border-left: 3px solid #ef4444; background: #2a1215; animation: pulseBg 1s infinite; }
+        .metric-tile.active { border-left: 3px solid #22c55e; }
+        .metric-label-sm {
+            font-size: 0.7rem;
+            color: #8f9bb3;
+            text-transform: uppercase;
+        }
+        .metric-number {
+            font-size: 1.6rem;
+            font-weight: 700;
+            font-family: monospace;
+        }
+
+        .status-box {
+            text-align: center;
+            padding: 16px;
+            border-radius: 20px;
+            font-weight: 800;
+            font-size: 1.5rem;
+            margin: 12px 0;
+        }
+        .status-awake { background: rgba(34,197,94,0.15); border: 1px solid #22c55e; color: #86efac; }
+        .status-drowsy { background: rgba(249,115,22,0.2); border: 1px solid #f97316; color: #fdba74; animation: pulse 1.5s infinite; }
+        .status-asleep { background: rgba(239,68,68,0.25); border: 1px solid #ef4444; color: #fca5a5; animation: pulse 0.8s infinite; }
+
+        .progress-section {
+            margin: 16px 0;
+        }
+        .progress-bg {
+            background: #1e2538;
+            border-radius: 60px;
+            height: 10px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, #f97316, #ef4444);
+            border-radius: 60px;
+            transition: width 0.08s linear;
+        }
+
+        .controls-row {
+            display: flex;
+            gap: 12px;
+            margin-top: 16px;
+        }
+        .btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 40px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .btn-start { background: #22c55e; color: white; }
+        .btn-stop { background: #ef4444; color: white; }
+        .btn-reset { background: #f59e0b; color: white; }
+
+        .stats-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            margin-top: 16px;
+        }
+        .stat-card {
+            background: #12172a;
+            border-radius: 16px;
+            padding: 12px;
+            text-align: center;
+            flex: 1;
+        }
+
+        .logs-container {
+            max-height: 220px;
+            overflow-y: auto;
+            margin-top: 12px;
+        }
+        .log-entry {
+            padding: 8px;
+            border-bottom: 1px solid #1f2a3e;
+            font-size: 0.75rem;
+            display: flex;
+            gap: 10px;
+        }
+        .log-time { color: #8f9bb3; min-width: 65px; }
+        .log-message { color: #cbd5e1; }
+
+        footer {
+            text-align: center;
+            margin-top: 28px;
+            font-size: 0.7rem;
+            color: #5b6a8c;
+        }
+        @keyframes pulse {
+            0% { opacity: 0.8; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.01); }
+            100% { opacity: 0.8; transform: scale(1); }
+        }
+        @keyframes pulseBg {
+            0% { background: #2a1215; }
+            100% { background: #3a1a1e; }
+        }
+    </style>
+</head>
+<body>
+<div class="dashboard">
+    <div class="header">
+        <div class="title-section">
+            <h1><i class="fas fa-eye"></i> Driver Drowsiness Detection</h1>
+            <p>Auto Buzzer System | Triggers Automatically When Drowsy (2 sec eye closure)</p>
+        </div>
+        <div class="header-badges">
+            <div class="badge"><i class="fas fa-video"></i> LIVE <span style="color:#22c55e;">●</span></div>
+            <div class="buzzer-indicator" id="buzzerStatusIndicator">
+                <i class="fas fa-bell"></i> Auto Buzzer: <span id="buzzerStatusText">Standby</span>
+            </div>
+            <button id="faceMeshToggleBtn" class="facemesh-toggle-btn"><i class="fas fa-shapes"></i> Face Mesh: ON</button>
+        </div>
+    </div>
+
+    <div class="grid-main">
+        <div class="camera-card">
+            <div class="cam-header">
+                <h3><i class="fas fa-camera"></i> Live Camera Feed</h3>
+                <span id="cameraStatusText" style="font-size:0.7rem;"><i class="fas fa-circle" style="color:#22c55e;"></i> Camera active ✓</span>
+            </div>
+            <div class="video-container">
+                <video id="webcam" autoplay playsinline style="display: none;"></video>
+                <canvas id="videoCanvas" width="640" height="480" style="width:100%; height:auto; aspect-ratio:640/480"></canvas>
+                <div class="detection-overlay" id="detectionStatusOverlay">
+                    <span class="status-indicator" id="statusDot" style="display:inline-block; width:8px; height:8px; border-radius:50%; background:#777; margin-right:6px;"></span>
+                    <span id="detectionStateText">Detection: OFF</span>
+                </div>
+                <div class="face-count-badge" id="faceCountBadge">Faces: 0</div>
+                <div class="buzzer-overlay" id="buzzerOverlay" style="background:rgba(0,0,0,0.8);">
+                    <i class="fas fa-bullhorn"></i>
+                    <span id="buzzerOverlayText">🔕 Buzzer inactive - Eyes open</span>
+                </div>
+            </div>
+            <div style="padding: 12px 20px; font-size:0.75rem; background:#0a0e16; border-top:1px solid #202532;">
+                <i class="fas fa-info-circle"></i> <strong>Auto Buzzer:</strong> When eyes close for <strong>2 seconds</strong> → Buzzer sounds automatically! Stops when eyes open.
+            </div>
+        </div>
+
+        <div class="right-panel">
+            <div class="card">
+                <h4 style="margin-bottom: 8px;"><i class="fas fa-chart-line"></i> Real-time Metrics</h4>
+                <div class="metrics-grid">
+                    <div class="metric-tile" id="earTile"><div class="metric-label-sm">EYE ASPECT RATIO</div><div class="metric-number" id="earValue">0.25</div></div>
+                    <div class="metric-tile" id="marTile"><div class="metric-label-sm">MOUTH ASPECT RATIO</div><div class="metric-number" id="marValue">0.45</div></div>
+                    <div class="metric-tile" id="perclosTile"><div class="metric-label-sm">EYE CLOSURE %</div><div class="metric-number" id="perclosValue">0%</div></div>
+                    <div class="metric-tile" id="blinkTile"><div class="metric-label-sm">BLINK RATE</div><div class="metric-number" id="blinkValue">0.0/min</div></div>
+                </div>
+
+                <div class="status-box" id="statusBox">AWAKE</div>
+
+                <div class="progress-section">
+                    <div style="display: flex; justify-content: space-between; font-size:0.7rem;"><span>⏱️ Timer to Auto Buzzer (2s needed)</span><span id="progressPercent">0%</span></div>
+                    <div class="progress-bg"><div class="progress-fill" id="alertProgressFill"></div></div>
+                    <div style="font-size:0.7rem; margin-top:6px;">🎯 <strong>Auto-trigger:</strong> Eyes closed <span id="closureTimerDisplay">0.0</span> seconds | Threshold: EAR &lt; <span id="thresholdDisplay">0.25</span></div>
+                </div>
+
+                <div class="controls-row">
+                    <button id="startDetectBtn" class="btn btn-start"><i class="fas fa-play"></i> Start Detection</button>
+                    <button id="stopDetectBtn" class="btn btn-stop" disabled><i class="fas fa-stop"></i> Stop</button>
+                    <button id="resetBtn" class="btn btn-reset"><i class="fas fa-sync-alt"></i> Reset Stats</button>
+                </div>
+                <div style="margin-top: 12px; font-size:0.7rem; background:#1a1f2e; padding:8px; border-radius:12px; text-align:center;">
+                    🚨 <strong>Auto Buzzer Active:</strong> Close your eyes for 2 seconds → Buzzer will sound automatically!
+                </div>
+            </div>
+
+            <div class="card">
+                <h4><i class="fas fa-chart-simple"></i> System Status & Alerts</h4>
+                <div class="stats-row">
+                    <div class="stat-card"><div class="metric-label-sm">DETECTION TIME</div><div id="detectionTimer" class="metric-number" style="font-size:1.2rem;">00:00</div></div>
+                    <div class="stat-card"><div class="metric-label-sm">DROWSY EVENTS</div><div id="drowsyEventCount" class="metric-number" style="font-size:1.2rem;">0</div></div>
+                    <div class="stat-card"><div class="metric-label-sm">BUZZER TRIGGERS</div><div id="buzzerTriggerCount" class="metric-number" style="font-size:1.2rem;">0</div></div>
+                </div>
+                <h4 style="margin: 12px 0 8px;"><i class="fas fa-list"></i> Event Log (Auto Buzzer Events)</h4>
+                <div class="logs-container" id="logsContainer">
+                    <div class="log-entry"><span class="log-time">--:--:--</span><span class="log-message">✅ System ready. Press START. Buzzer will trigger automatically when drowsy.</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <i class="fas fa-bell"></i> <strong>AUTO BUZZER SYSTEM</strong> | Closes eyes ≥ 2 seconds → Buzzer sounds automatically | Stops when eyes open | No button press needed!
+    </footer>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/face_mesh.js" crossorigin="anonymous"></script>
+
+<script>
+    // ------------------- DOM Elements -------------------
+    const videoEl = document.getElementById('webcam');
+    const canvasEl = document.getElementById('videoCanvas');
+    const canvasCtx = canvasEl.getContext('2d');
+
+    const earValueSpan = document.getElementById('earValue');
+    const marValueSpan = document.getElementById('marValue');
+    const perclosValueSpan = document.getElementById('perclosValue');
+    const blinkValueSpan = document.getElementById('blinkValue');
+    const statusBox = document.getElementById('statusBox');
+    const alertProgressFill = document.getElementById('alertProgressFill');
+    const progressPercentSpan = document.getElementById('progressPercent');
+    const thresholdDisplay = document.getElementById('thresholdDisplay');
+    const closureTimerDisplay = document.getElementById('closureTimerDisplay');
+    const detectionTimerSpan = document.getElementById('detectionTimer');
+    const drowsyEventCountSpan = document.getElementById('drowsyEventCount');
+    const buzzerTriggerCountSpan = document.getElementById('buzzerTriggerCount');
+    const faceCountBadge = document.getElementById('faceCountBadge');
+    const detectionStateText = document.getElementById('detectionStateText');
+    const statusDot = document.getElementById('statusDot');
+    const logsContainer = document.getElementById('logsContainer');
+    const earTile = document.getElementById('earTile');
+    const marTile = document.getElementById('marTile');
+    const buzzerStatusText = document.getElementById('buzzerStatusText');
+    const buzzerOverlayText = document.getElementById('buzzerOverlayText');
+    const buzzerOverlayDiv = document.getElementById('buzzerOverlay');
+    const buzzerStatusIndicator = document.getElementById('buzzerStatusIndicator');
+
+    const startBtn = document.getElementById('startDetectBtn');
+    const stopBtn = document.getElementById('stopDetectBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const faceMeshToggleBtn = document.getElementById('faceMeshToggleBtn');
+
+    // ------------------- AUTO BUZZER AUDIO -------------------
+    let audioCtx = null;
+    let isBuzzerActive = false;
+    let buzzerInterval = null;
+    let buzzerTriggerCount = 0;
+    
+    function initAudio() {
+        if (!audioCtx) {
+            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        }
+        if (audioCtx.state === 'suspended') {
+            audioCtx.resume();
+        }
+    }
+    
+    // Play single buzzer beep
+    function playBuzzerBeep() {
+        try {
+            initAudio();
+            const now = audioCtx.currentTime;
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            const filter = audioCtx.createBiquadFilter();
+            
+            osc.connect(filter);
+            filter.connect(gain);
+            gain.connect(audioCtx.destination);
+            
+            osc.type = 'square';
+            osc.frequency.value = 880;
+            filter.type = 'bandpass';
+            filter.frequency.value = 1500;
+            filter.Q.value = 5;
+            gain.gain.setValueAtTime(0.4, now);
+            gain.gain.exponentialRampToValueAtTime(0.01, now + 0.25);
+            
+            osc.start(now);
+            osc.stop(now + 0.25);
+        } catch(e) { console.warn("Audio error:", e); }
+    }
+    
+    // Start continuous buzzer (repeating)
+    function startAutoBuzzer() {
+        if (isBuzzerActive) return;
+        isBuzzerActive = true;
+        
+        // Play immediately
+        playBuzzerBeep();
+        // Set interval for continuous buzzing
+        buzzerInterval = setInterval(() => {
+            if (isBuzzerActive) {
+                playBuzzerBeep();
+            }
+        }, 380);
+        
+        // Update UI
+        buzzerStatusText.innerText = "ACTIVE 🔔";
+        buzzerOverlayText.innerHTML = "🔴 BUZZER ACTIVATED! Eyes closed ≥ 2 sec! 🔴";
+        buzzerOverlayDiv.style.background = "#ef4444";
+        buzzerOverlayDiv.style.animation = "pulseOrange 0.5s infinite";
+        buzzerStatusIndicator.classList.add('buzzer-active');
+        
+        addLog("🔊 AUTO BUZZER ACTIVATED - Eyes closed for 2+ seconds!", true);
+    }
+    
+    function stopAutoBuzzer() {
+        if (!isBuzzerActive) return;
+        isBuzzerActive = false;
+        if (buzzerInterval) {
+            clearInterval(buzzerInterval);
+            buzzerInterval = null;
+        }
+        
+        buzzerStatusText.innerText = "Standby";
+        buzzerOverlayText.innerHTML = "🔕 Buzzer inactive - Eyes open";
+        buzzerOverlayDiv.style.background = "rgba(0,0,0,0.8)";
+        buzzerOverlayDiv.style.animation = "none";
+        buzzerStatusIndicator.classList.remove('buzzer-active');
+        
+        addLog("Buzzer stopped - Eyes reopened", false);
+    }
+    
+    function recordBuzzerTrigger() {
+        buzzerTriggerCount++;
+        buzzerTriggerCountSpan.innerText = buzzerTriggerCount;
+        drowsyEventCountSpan.innerText = parseInt(drowsyEventCountSpan.innerText) + 1;
+    }
+    
+    // ------------------- Detection State -------------------
+    let isDetecting = false;
+    let detectionStartTime = null;
+    let currentEAR = 0.25;
+    let currentMAR = 0.45;
+    let closureDuration = 0.0;
+    let totalFramesForPERCLOS = 0;
+    let closedFramesPERCLOS = 0;
+    let blinkCounter = 0;
+    let lastFrameTime = performance.now();
+    let buzzerTriggeredForCurrentClosure = false;
+    let sensitivityEARThreshold = 0.25;
+    
+    // Face mesh
+    let faceMeshEnabled = true;
+    let faceMeshInstance = null;
+    let cameraInstance = null;
+    
+    function addLog(message, isAlert = false) {
+        const now = new Date();
+        const timeStr = now.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit', second:'2-digit'});
+        const logDiv = document.createElement('div');
+        logDiv.className = 'log-entry';
+        logDiv.innerHTML = `<span class="log-time">${timeStr}</span><span class="log-message">${message}</span>`;
+        logsContainer.prepend(logDiv);
+        if(logsContainer.children.length > 18) logsContainer.removeChild(logsContainer.lastChild);
+        if(isAlert) console.warn(message);
+    }
+    
+    function updateDetection(ear, mar, deltaTime) {
+        currentEAR = ear;
+        currentMAR = mar;
+        earValueSpan.innerText = currentEAR.toFixed(3);
+        marValueSpan.innerText = currentMAR.toFixed(3);
+        
+        const isEyeClosed = (currentEAR < sensitivityEARThreshold);
+        closureTimerDisplay.innerText = closureDuration.toFixed(1);
+        
+        if (isEyeClosed) {
+            closureDuration += deltaTime;
+            let progress = Math.min(100, (closureDuration / 2.0) * 100);
+            alertProgressFill.style.width = `${progress}%`;
+            progressPercentSpan.innerText = `${Math.floor(progress)}%`;
+            
+            // AUTO BUZZER TRIGGER - when eyes closed for 2 seconds!
+            if (closureDuration >= 2.0 && !buzzerTriggeredForCurrentClosure && isDetecting) {
+                buzzerTriggeredForCurrentClosure = true;
+                recordBuzzerTrigger();
+                startAutoBuzzer();
+                addLog("🚨 AUTO BUZZER! Eyes closed for 2 seconds - drowsiness detected!", true);
+            }
+        } else {
+            // Eyes open
+            if (closureDuration > 0.08 && closureDuration < 0.4) {
+                blinkCounter++;
+                addLog(`Normal blink (${(closureDuration*1000).toFixed(0)}ms) - Buzzer NOT triggered`, false);
+            }
+            if (isBuzzerActive) {
+                stopAutoBuzzer();
+            }
+            closureDuration = 0;
+            buzzerTriggeredForCurrentClosure = false;
+            alertProgressFill.style.width = `0%`;
+            progressPercentSpan.innerText = `0%`;
+        }
+        
+        // PERCLOS
+        totalFramesForPERCLOS++;
+        if (currentEAR < sensitivityEARThreshold) closedFramesPERCLOS++;
+        let perclos = totalFramesForPERCLOS > 0 ? (closedFramesPERCLOS / totalFramesForPERCLOS * 100) : 0;
+        perclosValueSpan.innerText = `${Math.round(perclos)}%`;
+        
+        // Blink rate
+        if (detectionStartTime) {
+            let elapsedMin = (Date.now() - detectionStartTime) / 60000;
+            let rate = elapsedMin > 0 ? (blinkCounter / elapsedMin) : 0;
+            blinkValueSpan.innerText = `${rate.toFixed(1)}/min`;
+        }
+        
+        // Status text
+        let statusText = "AWAKE";
+        if (currentEAR < 0.20 && closureDuration > 1.2) statusText = "DROWSY";
+        if (currentEAR < 0.15 && closureDuration > 1.8) statusText = "ASLEEP";
+        if (perclos > 45) statusText = "DROWSY";
+        
+        if (statusText === "AWAKE") { 
+            statusBox.className = "status-box status-awake"; 
+            statusBox.innerHTML = "😃 AWAKE"; 
+        } else if (statusText === "DROWSY") { 
+            statusBox.className = "status-box status-drowsy"; 
+            statusBox.innerHTML = "😴 DROWSY"; 
+        } else if (statusText === "ASLEEP") { 
+            statusBox.className = "status-box status-asleep"; 
+            statusBox.innerHTML = "💤 ASLEEP!";
+        }
+        
+        earTile.className = currentEAR < 0.2 ? "metric-tile warning" : "metric-tile active";
+        marTile.className = currentMAR > 0.6 ? "metric-tile warning" : "metric-tile active";
+    }
+    
+    function updateTimer() {
+        if (isDetecting && detectionStartTime) {
+            let elapsed = Math.floor((Date.now() - detectionStartTime) / 1000);
+            let mins = Math.floor(elapsed / 60).toString().padStart(2,'0');
+            let secs = (elapsed % 60).toString().padStart(2,'0');
+            detectionTimerSpan.innerText = `${mins}:${secs}`;
+        }
+    }
+    setInterval(updateTimer, 500);
+    
+    // ---------------- Face Mesh ----------------
+    function initFaceMesh() {
+        if (faceMeshInstance) faceMeshInstance.close();
+        faceMeshInstance = new FaceMesh({
+            locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/${file}`
+        });
+        faceMeshInstance.setOptions({
+            maxNumFaces: 2,
+            refineLandmarks: true,
+            minDetectionConfidence: 0.5,
+            minTrackingConfidence: 0.5
+        });
+        faceMeshInstance.onResults(onFaceMeshResults);
+    }
+    
+    function computeEAR(landmarks) {
+        const leftEyeTop = landmarks[159];
+        const leftEyeBottom = landmarks[145];
+        const leftEyeLeft = landmarks[33];
+        const leftEyeRight = landmarks[133];
+        const verticalL = Math.hypot(leftEyeTop.x - leftEyeBottom.x, leftEyeTop.y - leftEyeBottom.y);
+        const horizL = Math.hypot(leftEyeLeft.x - leftEyeRight.x, leftEyeLeft.y - leftEyeRight.y);
+        const earL = verticalL / (horizL + 1e-6);
+        
+        const rightEyeTop = landmarks[386];
+        const rightEyeBottom = landmarks[374];
+        const rightEyeLeft = landmarks[362];
+        const rightEyeRight = landmarks[263];
+        const verticalR = Math.hypot(rightEyeTop.x - rightEyeBottom.x, rightEyeTop.y - rightEyeBottom.y);
+        const horizR = Math.hypot(rightEyeLeft.x - rightEyeRight.x, rightEyeLeft.y - rightEyeRight.y);
+        const earR = verticalR / (horizR + 1e-6);
+        return (earL + earR) / 2.0;
+    }
+    
+    function computeMAR(landmarks) {
+        const upperLip = landmarks[13];
+        const lowerLip = landmarks[14];
+        const leftMouth = landmarks[78];
+        const rightMouth = landmarks[308];
+        const vertical = Math.hypot(upperLip.y - lowerLip.y, upperLip.x - lowerLip.x);
+        const horizontal = Math.hypot(leftMouth.x - rightMouth.x, leftMouth.y - rightMouth.y);
+        return vertical / (horizontal + 1e-6);
+    }
+    
+    function onFaceMeshResults(results) {
+        const now = performance.now();
+        let delta = Math.min(0.05, (now - lastFrameTime) / 1000);
+        if (delta <= 0) delta = 0.033;
+        lastFrameTime = now;
+        
+        canvasCtx.clearRect(0, 0, canvasEl.width, canvasEl.height);
+        if (results.image) {
+            canvasCtx.drawImage(results.image, 0, 0, canvasEl.width, canvasEl.height);
+        }
+        
+        if (results.multiFaceLandmarks && results.multiFaceLandmarks.length > 0) {
+            faceCountBadge.innerText = `Faces: ${results.multiFaceLandmarks.length}`;
+            const landmarks = results.multiFaceLandmarks[0];
+            const ear = computeEAR(landmarks);
+            const mar = computeMAR(landmarks);
+            
+            if (isDetecting) {
+                updateDetection(ear, mar, delta);
+            } else {
+                earValueSpan.innerText = ear.toFixed(3);
+                marValueSpan.innerText = mar.toFixed(3);
+            }
+            
+            if (faceMeshEnabled) {
+                for (let lm of landmarks) {
+                    const x = lm.x * canvasEl.width;
+                    const y = lm.y * canvasEl.height;
+                    canvasCtx.beginPath();
+                    canvasCtx.arc(x, y, 1.2, 0, 2 * Math.PI);
+                    canvasCtx.fillStyle = "#33ffccaa";
+                    canvasCtx.fill();
+                }
+                const eyeIndices = [33,133,159,145,362,263,386,374];
+                for (let idx of eyeIndices) {
+                    let p = landmarks[idx];
+                    canvasCtx.beginPath();
+                    canvasCtx.arc(p.x * canvasEl.width, p.y * canvasEl.height, 3.5, 0, 2 * Math.PI);
+                    canvasCtx.fillStyle = "#ffcc00aa";
+                    canvasCtx.fill();
+                }
+            }
+        } else {
+            faceCountBadge.innerText = `Faces: 0`;
+        }
+    }
+    
+    async function startCamera() {
+        if (cameraInstance) await cameraInstance.stop();
+        initFaceMesh();
+        const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "user", width: 640, height: 480 } });
+        videoEl.srcObject = stream;
+        await new Promise(r => { videoEl.onloadedmetadata = () => { videoEl.play(); r(); }; });
+        cameraInstance = new Camera(videoEl, {
+            onFrame: async () => { if (faceMeshInstance) await faceMeshInstance.send({image: videoEl}); },
+            width: 640, height: 480
+        });
+        await cameraInstance.start();
+        addLog("Camera ready - Auto Buzzer System Active", false);
+    }
+    
+    function startDetection() {
+        if (isDetecting) return;
+        isDetecting = true;
+        detectionStartTime = Date.now();
+        closureDuration = 0;
+        buzzerTriggeredForCurrentClosure = false;
+        startBtn.disabled = true;
+        stopBtn.disabled = false;
+        detectionStateText.innerText = "Detection: ACTIVE";
+        statusDot.style.background = "#22c55e";
+        addLog("▶️ Detection STARTED - Auto buzzer will trigger if eyes close ≥ 2 seconds", false);
+    }
+    
+    function stopDetection() {
+        if (!isDetecting) return;
+        isDetecting = false;
+        if (isBuzzerActive) stopAutoBuzzer();
+        startBtn.disabled = false;
+        stopBtn.disabled = true;
+        detectionStateText.innerText = "Detection: OFF";
+        statusDot.style.background = "#777";
+        addLog("⏹️ Detection STOPPED", false);
+    }
+    
+    function resetSystem() {
+        stopDetection();
+        if (isBuzzerActive) stopAutoBuzzer();
+        closureDuration = 0;
+        buzzerTriggeredForCurrentClosure = false;
+        alertProgressFill.style.width = "0%";
+        progressPercentSpan.innerText = "0%";
+        closureTimerDisplay.innerText = "0.0";
+        drowsyEventCountSpan.innerText = "0";
+        buzzerTriggerCountSpan.innerText = "0";
+        blinkCounter = 0;
+        totalFramesForPERCLOS = 0;
+        closedFramesPERCLOS = 0;
+        detectionTimerSpan.innerText = "00:00";
+        detectionStartTime = null;
+        earValueSpan.innerText = "0.25";
+        marValueSpan.innerText = "0.45";
+        perclosValueSpan.innerText = "0%";
+        blinkValueSpan.innerText = "0.0/min";
+        statusBox.className = "status-box status-awake";
+        statusBox.innerHTML = "😃 AWAKE";
+        buzzerTriggerCount = 0;
+        addLog("🔄 System RESET - All counters cleared", false);
+    }
+    
+    faceMeshToggleBtn.addEventListener('click', () => {
+        faceMeshEnabled = !faceMeshEnabled;
+        faceMeshToggleBtn.innerHTML = faceMeshEnabled ? '<i class="fas fa-shapes"></i> Face Mesh: ON' : '<i class="fas fa-shapes"></i> Face Mesh: OFF';
+        faceMeshToggleBtn.className = faceMeshEnabled ? "facemesh-toggle-btn" : "facemesh-toggle-btn off";
+    });
+    
+    startBtn.addEventListener('click', startDetection);
+    stopBtn.addEventListener('click', stopDetection);
+    resetBtn.addEventListener('click', resetSystem);
+    
+    window.addEventListener('load', async () => {
+        await startCamera();
+        thresholdDisplay.innerText = sensitivityEARThreshold;
+        addLog("✅ Auto Buzzer System Ready! Press START. Close eyes for 2 seconds → Buzzer sounds automatically!", false);
+    });
+</script>
+</body>
+</html>
