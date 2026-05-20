@@ -56,11 +56,13 @@ The system is developed using:
 
 | Category  | Technology              |
 | --------- | ----------------------- |
-| Hardware  | ESP32-CAM               |
+| Hardware  | ESP32-CAM, ESP32,       |
+|           |Jumping wires, 2 LEDS,   |
+|           |USB Cable                |
 | Backend   | Python, Flask           |
-| Frontend  | HTML5, CSS3, JavaScript |
+| Frontend  | HTML5, CSS3, JavaScript3|
 | AI/CV     | OpenCV, MediaPipe       |
-| Libraries | NumPy, imutils, scipy   |
+| Libraries |NumPy,Pandas, seaborn    |
 
 ---
 
