@@ -103,26 +103,6 @@ Driver-Drowsiness-Detection/
 
 ---
 
-# ⚙️ Installation
-
-## 1️⃣ Clone the Repository
-
-```bash
-git clone https://github.com/your-username/driver-drowsiness-detection.git
-
-cd driver-drowsiness-detection
-```
-
----
-
-## 2️⃣ Install Required Libraries
-
-```bash
-pip install -r requirements.txt
-```
-
----
-
 # 📦 Requirements
 
 ```txt
@@ -278,7 +258,7 @@ The web dashboard displays:
 # 👨‍💻 Authors
 
 * Bhumika K.R
-* Final Year Project Team
+* Final Year Project 
 
 ---
 
@@ -287,23 +267,8 @@ The web dashboard displays:
 * Google MediaPipe Documentation
 * OpenCV OpenCV Documentation
 * Flask Official Documentation
-
 ---
 
-# 📜 License
-
-This project is licensed under the MIT License.
-
----
-
-# 🙏 Acknowledgement
-
-Special thanks to:
-
-* Project Guide
-* Department Faculty
-* OpenCV Community
-* MediaPipe Developers
 
 ---
 
