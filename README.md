@@ -271,9 +271,6 @@ The web dashboard displays:
 * Flask Official Documentation
 ---
 
-
----
-
 # ⭐ Conclusion
 
 The **Real-Time Driver Drowsiness Detection System** is an effective AI-based solution for monitoring driver alertness using computer vision and embedded systems. By integrating ESP32-CAM, Flask, OpenCV, and MediaPipe, the system provides accurate real-time drowsiness detection and enhances road safety.
